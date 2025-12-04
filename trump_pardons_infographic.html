@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bought & Pardoned: The Price of Presidential Clemency</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+Pro:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-card-alt: #1a1a24;
+            --text-primary: #f0f0f5;
+            --text-secondary: #9090a0;
+            --accent-gold: #d4a84b;
+            --accent-gold-light: #f0c860;
+            --accent-red: #c94444;
+            --accent-red-dark: #8b2020;
+            --border-subtle: rgba(255,255,255,0.08);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Source Sans Pro', -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 60px 20px 50px;
+            background: linear-gradient(180deg, #0f0f18 0%, var(--bg-dark) 100%);
+            border-bottom: 1px solid var(--border-subtle);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(212,168,75,0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .header-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            margin-bottom: 16px;
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-gold-light) 50%, var(--accent-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Big Number Stats */
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 40px auto;
+            max-width: 900px;
+        }
+        
+        .hero-stat {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 28px 20px;
+            text-align: center;
+        }
+        
+        .hero-stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 700;
+            color: var(--accent-gold);
+            line-height: 1.1;
+        }
+        
+        .hero-stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+        
+        /* Section Headers */
+        .section {
+            margin: 60px 0;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        
+        .section-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--accent-gold);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+        
+        .section-desc {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            font-size: 1.05rem;
+        }
+        
+        /* Pardon Cards */
+        .pardon-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .pardon-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 1fr 180px 180px;
+            gap: 24px;
+            align-items: center;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        
+        .pardon-card:hover {
+            border-color: rgba(212,168,75,0.3);
+            transform: translateY(-2px);
+        }
+        
+        .pardon-rank {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-gold);
+            opacity: 0.7;
+            margin-bottom: 4px;
+        }
+        
+        .pardon-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        
+        .pardon-crime {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        
+        .pardon-money {
+            text-align: center;
+        }
+        
+        .money-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+        
+        .money-amount {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: var(--accent-gold);
+        }
+        
+        .money-amount.restitution {
+            color: var(--accent-red);
+        }
+        
+        .money-note {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        
+        /* Connection Badge */
+        .connection {
+            background: var(--bg-card-alt);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        
+        .connection strong {
+            color: var(--accent-gold-light);
+            font-weight: 600;
+        }
+        
+        /* J6 Section */
+        .j6-section {
+            background: linear-gradient(135deg, rgba(139,32,32,0.15) 0%, rgba(10,10,15,0.95) 100%);
+            border: 1px solid rgba(201,68,68,0.3);
+            border-radius: 16px;
+            padding: 40px;
+            margin: 60px 0;
+        }
+        
+        .j6-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .j6-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-red-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .j6-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            color: var(--text-primary);
+        }
+        
+        .j6-subtitle {
+            color: var(--accent-red);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .j6-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 30px 0;
+        }
+        
+        .j6-stat {
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(201,68,68,0.2);
+        }
+        
+        .j6-stat-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: var(--accent-red);
+        }
+        
+        .j6-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+        
+        .j6-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 24px;
+        }
+        
+        .j6-detail-box {
+            background: rgba(0,0,0,0.25);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .j6-detail-title {
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+        
+        .j6-list {
+            list-style: none;
+        }
+        
+        .j6-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .j6-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .j6-list .name {
+            color: var(--text-primary);
+        }
+        
+        .j6-list .sentence {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-red);
+            font-size: 0.85rem;
+        }
+        
+        /* Quote */
+        .quote-block {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-gold);
+            padding: 24px 28px;
+            margin: 40px 0;
+            border-radius: 0 12px 12px 0;
+        }
+        
+        .quote-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .quote-source {
+            margin-top: 12px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 60px;
+        }
+        
+        .footer-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .sources {
+            margin-top: 16px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+        
+        /* Responsive */
+        @media (max-width: 900px) {
+            .pardon-card {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .pardon-money {
+                text-align: left;
+                display: flex;
+                gap: 24px;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .j6-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .j6-details {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px 16px;
+            }
+            
+            .j6-section {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-label">Investigation</div>
+        <h1>Bought & Pardoned</h1>
+        <p class="subtitle">A pattern of presidential pardons tied to political donations, personal loyalty, and financial connections—eliminating $1.3 billion owed to victims and taxpayers.</p>
+        
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-number">$1.3B</div>
+                <div class="hero-stat-label">Total restitution, fines & forfeitures eliminated</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-number">1,600+</div>
+                <div class="hero-stat-label">Clemencies in second term (vs 237 in first)</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-number">89%</div>
+                <div class="hero-stat-label">First-term pardons with personal/political connection</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <section class="section">
+            <div class="section-header">
+                <div class="section-number">1</div>
+                <h2>Pay-to-Play: Top 10 Restitution Avoided</h2>
+            </div>
+            <p class="section-desc">Individuals who made significant donations or had financial connections to Trump, then received pardons eliminating their debts to victims.</p>
+            
+            <div class="pardon-grid">
+                
+                <div class="pardon-card">
+                    <div>
+                        <div class="pardon-rank">#1 LARGEST</div>
+                        <div class="pardon-name">Trevor Milton</div>
+                        <div class="pardon-crime">Nikola Corp fraud — lied to investors about electric truck technology that didn't exist</div>
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Donated</div>
+                            <div class="money-amount">$1.8M</div>
+                            <div class="money-note">Sept–Dec 2024</div>
+                        </div>
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Restitution Avoided</div>
+                            <div class="money-amount restitution">$680M</div>
+                            <div class="money-note">Zero prior donations</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pardon-card">
+                    <div>
+                        <div class="pardon-rank">#2</div>
+                        <div class="pardon-name">Ross Ulbricht</div>
+                        <div class="pardon-crime">Silk Road dark web marketplace — convicted of drug trafficking, money laundering, hacking</div>
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Connection</div>
+                            <div class="money-amount" style="font-size:1rem;">Libertarian cause célèbre</div>
+                        </div>
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Forfeiture Avoided</div>
+                            <div class="money-amount restitution">$184M</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pardon-card">
+                    <div>
+                        <div class="pardon-rank">#3</div>
+                        <div class="pardon-name">Lawrence Duran</div>
+                        <div class="pardon-crime">Medicare fraud — billed for fake mental health services at 30+ clinics</div>
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Connection</div>
+                            <div class="money-amount" style="font-size:0.9rem;">Lobbying network</div>
+                        </div>
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Restitution Avoided</div>
+                            <div class="money-amount restitution">$87M</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pardon-card">
+                    <div>
+                        <div class="pardon-rank">#4</div>
+                        <div class="pardon-name">Carlos Watson</div>
+                        <div class="pardon-crime">Ozy Media fraud — fabricated metrics, fake celebrity endorsements, forged documents</div>
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Connection</div>
+                            <div class="money-amount" style="font-size:0.9rem;">GOP donor network</div>
+                        </div>
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Restitution Avoided</div>
+                            <div class="money-amount restitution">$36.7M</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pardon-card">
+                    <div>
+                        <div class="pardon-rank">#5</div>
+                        <div class="pardon-name">Paul Manafort</div>
+                        <div class="pardon-crime">Campaign chairman — tax fraud, bank fraud, witness tampering; shared polling data with Russian intelligence</div>
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Connection</div>
+                            <div class="money-amount" style="font-size:0.85rem;">Refused to cooperate</div>
+                            <div class="money-note">Told Gates "we'll be taken care of"</div>
+                        </div>
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Restitution + Forfeiture</div>
+                            <div class="money-amount restitution">$35.8M</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pardon-card">
+                    <div>
+                        <div class="pardon-rank">#6</div>
+                        <div class="pardon-name">Todd & Julie Chrisley</div>
+                        <div class="pardon-crime">Bank fraud, tax evasion — reality TV stars who defrauded banks of $30M in loans</div>
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Connection</div>
+                            <div class="money-amount" style="font-size:0.9rem;">Celebrity + GOP ties</div>
+                        </div>
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Restitution Avoided</div>
+                            <div class="money-amount restitution">$17.7M</div>
+                            <div class="money-note">Said: "The feds got f***ed"</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pardon-card">
+                    <div>
+                        <div class="pardon-rank">#7</div>
+                        <div class="pardon-name">Imaad Zuberi</div>
+                        <div class="pardon-crime">Illegal foreign donations, FARA violations, tax evasion, obstruction — funneled foreign money into campaigns</div>
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Donated</div>
+                            <div class="money-amount">$2M+</div>
+                            <div class="money-note">Inaugural + RNC 2016-17</div>
+                        </div>
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Restitution Avoided</div>
+                            <div class="money-amount restitution">$15.7M</div>
+                            <div class="money-note">Sentence: 12 yrs → commuted</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pardon-card">
+                    <div>
+                        <div class="pardon-rank">#8</div>
+                        <div class="pardon-name">Sholam Weiss</div>
+                        <div class="pardon-crime">Insurance fraud — looted National Heritage Life, destroyed pensions of 25,000 seniors</div>
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Connection</div>
+                            <div class="money-amount" style="font-size:0.85rem;">Kushner network</div>
+                            <div class="money-note">Via Brett Tolman</div>
+                        </div>
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Restitution Avoided</div>
+                            <div class="money-amount restitution">$125M+</div>
+                            <div class="money-note">Sentence: 845 yrs → freed</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pardon-card">
+                    <div>
+                        <div class="pardon-rank">#9</div>
+                        <div class="pardon-name">Paul Walczak</div>
+                        <div class="pardon-crime">Employment tax fraud — stole employee withholdings, spent on yacht and luxury goods</div>
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Donated (Mother)</div>
+                            <div class="money-amount">$1M</div>
+                            <div class="money-note">Mar-a-Lago dinner</div>
+                        </div>
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Restitution Avoided</div>
+                            <div class="money-amount restitution">$4.4M</div>
+                            <div class="money-note">Owed to defrauded workers</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pardon-card">
+                    <div>
+                        <div class="pardon-rank">#10</div>
+                        <div class="pardon-name">Charles Kushner</div>
+                        <div class="pardon-crime">Tax evasion, witness tampering — hired prostitute to entrap brother-in-law, mailed sex tape to sister</div>
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Connection</div>
+                            <div class="money-amount" style="font-size:0.85rem;">Father of Jared</div>
+                            <div class="money-note">Trump's son-in-law</div>
+                        </div>
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Current Status</div>
+                            <div class="money-amount" style="font-size:0.9rem; color: var(--accent-gold);">Ambassador to France</div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+        
+        <div class="quote-block">
+            <div class="quote-text">"It's called flipping and it almost ought to be illegal."</div>
+            <div class="quote-source">— Donald Trump on cooperating with investigators, August 2018</div>
+        </div>
+        
+        <section class="section">
+            <div class="section-header">
+                <div class="section-number">2</div>
+                <h2>The Loyalty Test: Mueller Investigation</h2>
+            </div>
+            <p class="section-desc">Those who refused to cooperate—or lied to protect Trump—received pardons. Those who cooperated did not.</p>
+            
+            <div class="pardon-grid">
+                <div class="pardon-card">
+                    <div>
+                        <div class="pardon-name">Roger Stone</div>
+                        <div class="pardon-crime">7 counts: obstruction, witness tampering, lying to Congress about WikiLeaks coordination</div>
+                    </div>
+                    <div class="connection">
+                        <strong>Refused to testify</strong> about Trump's knowledge of WikiLeaks. Judge: "He was prosecuted for covering up for the President."
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Outcome</div>
+                            <div class="money-amount" style="color: var(--accent-gold);">✓ PARDONED</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pardon-card">
+                    <div>
+                        <div class="pardon-name">Michael Flynn</div>
+                        <div class="pardon-crime">Lying to FBI about conversations with Russian ambassador</div>
+                    </div>
+                    <div class="connection">
+                        <strong>Withdrew cooperation</strong> after initially cooperating. Mueller noted Trump lawyers referenced "the President's feelings toward Flynn."
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Outcome</div>
+                            <div class="money-amount" style="color: var(--accent-gold);">✓ PARDONED</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pardon-card">
+                    <div>
+                        <div class="pardon-name">Michael Cohen</div>
+                        <div class="pardon-crime">Campaign finance violations, tax fraud, lying to Congress</div>
+                    </div>
+                    <div class="connection">
+                        <strong>Fully cooperated</strong> and testified against Trump. Trump called him a "rat" on Twitter.
+                    </div>
+                    <div class="pardon-money">
+                        <div>
+                            <div class="money-label">Outcome</div>
+                            <div class="money-amount" style="color: var(--accent-red);">✗ NO PARDON</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="j6-section">
+            <div class="j6-header">
+                <div class="j6-icon">⚠</div>
+                <div>
+                    <div class="j6-title">January 6th: Mass Clemency</div>
+                    <div class="j6-subtitle">Largest mass pardon in American history — issued on Inauguration Day 2025</div>
+                </div>
+            </div>
+            
+            <div class="j6-stats">
+                <div class="j6-stat">
+                    <div class="j6-stat-number">~1,500</div>
+                    <div class="j6-stat-label">Full pardons issued</div>
+                </div>
+                <div class="j6-stat">
+                    <div class="j6-stat-number">608</div>
+                    <div class="j6-stat-label">Charged with assaulting officers</div>
+                </div>
+                <div class="j6-stat">
+                    <div class="j6-stat-number">140+</div>
+                    <div class="j6-stat-label">Officers injured by pardoned individuals</div>
+                </div>
+                <div class="j6-stat">
+                    <div class="j6-stat-number">$2.6M</div>
+                    <div class="j6-stat-label">Restitution to Capitol eliminated</div>
+                </div>
+            </div>
+            
+            <div class="j6-details">
+                <div class="j6-detail-box">
+                    <div class="j6-detail-title">Seditious Conspiracy Leaders (Commuted)</div>
+                    <ul class="j6-list">
+                        <li><span class="name">Enrique Tarrio</span> <span class="sentence">22 years → freed</span></li>
+                        <li><span class="name">Stewart Rhodes</span> <span class="sentence">18 years → freed</span></li>
+                        <li><span class="name">Joseph Biggs</span> <span class="sentence">17 years → freed</span></li>
+                        <li><span class="name">Kelly Meggs</span> <span class="sentence">12 years → freed</span></li>
+                        <li><span class="name">Dominic Pezzola</span> <span class="sentence">10 years → freed</span></li>
+                    </ul>
+                </div>
+                <div class="j6-detail-box">
+                    <div class="j6-detail-title">Violent Offenders (Full Pardons)</div>
+                    <ul class="j6-list">
+                        <li><span class="name">Daniel Rodriguez</span> <span class="sentence">Tased Officer Fanone in neck</span></li>
+                        <li><span class="name">Peter Schwartz</span> <span class="sentence">38 prior convictions; beat officers</span></li>
+                        <li><span class="name">David Dempsey</span> <span class="sentence">"Political violence personified"</span></li>
+                        <li><span class="name">Julian Khater</span> <span class="sentence">Sprayed Officer Sicknick (died next day)</span></li>
+                        <li><span class="name">Patrick McCaughey III</span> <span class="sentence">Crushed officer with riot shield</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="quote-block" style="margin-top: 30px; border-left-color: var(--accent-red);">
+                <div class="quote-text" style="font-size: 1.1rem;">"Sends a dangerous message that the consequences for attacking law enforcement are not severe."</div>
+                <div class="quote-source">— Fraternal Order of Police (endorsed Trump in 2020 and 2024)</div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <div class="section-header">
+                <div class="section-number">3</div>
+                <h2>The Escalation: First Term vs. Second Term</h2>
+            </div>
+            
+            <div class="hero-stats" style="max-width: 700px; margin: 30px auto;">
+                <div class="hero-stat">
+                    <div class="hero-stat-number">237</div>
+                    <div class="hero-stat-label">Clemencies in 4 years<br><span style="color: var(--text-secondary);">First Term</span></div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">1,600+</div>
+                    <div class="hero-stat-label">Clemencies in 11 months<br><span style="color: var(--accent-red);">Second Term</span></div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">675%</div>
+                    <div class="hero-stat-label">Increase in clemency rate<br><span style="color: var(--text-secondary);">Term over term</span></div>
+                </div>
+            </div>
+            
+            <p class="section-desc" style="text-align: center; max-width: 700px; margin: 0 auto;">
+                The DOJ Pardon Attorney office was effectively dismantled. Only 10.5% of first-term pardons went through the official process. In the second term, it was replaced entirely with political operatives who stated their rationale as: <strong>"No MAGA left behind."</strong>
+            </p>
+        </section>
+
+        <footer class="footer">
+            <p class="footer-text">Data compiled from court records, FEC filings, House Judiciary Committee analysis, and DOJ archives.</p>
+            <p class="sources">Sources: House Judiciary Democrats, Just Security, NPR, PBS, DOJ Archives, CBS News, ProPublica, OpenSecrets, Wikipedia</p>
+        </footer>
+        
+    </div>
+</body>
+</html>

@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The "Open Border" Myth</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Source Serif 4', Georgia, serif;
+      background: linear-gradient(180deg, #0d0d0d 0%, #1a1a1a 100%);
+      color: #fff;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 28px;
+    }
+    
+    .section {
+      margin-bottom: 48px;
+    }
+    
+    .section-header {
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: #e94560;
+      font-weight: 600;
+      margin-bottom: 16px;
+      font-family: 'Inter', system-ui, sans-serif;
+      text-transform: uppercase;
+    }
+    
+    h1 {
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    
+    h2 {
+      font-size: 26px;
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    
+    .lead {
+      font-size: 20px;
+      color: #ccc;
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+    
+    .highlight {
+      color: #e94560;
+      font-weight: 600;
+    }
+    
+    .good-highlight {
+      color: #4ecca3;
+      font-weight: 600;
+    }
+    
+    .divider {
+      height: 1px;
+      background: rgba(255,255,255,0.1);
+      margin: 48px 0;
+    }
+    
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 48px 0 32px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 48px;
+    }
+    
+    .hero h1 {
+      font-size: 52px;
+    }
+    
+    .verdict-box {
+      background: rgba(78, 204, 163, 0.12);
+      border: 1px solid rgba(78, 204, 163, 0.4);
+      border-radius: 12px;
+      padding: 24px 32px;
+      margin: 24px 0;
+    }
+    
+    .verdict-box .verdict {
+      font-size: 14px;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 600;
+      color: #4ecca3;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    
+    .verdict-box .text {
+      font-size: 18px;
+      color: #e8e8e8;
+    }
+    
+    /* STAT CARDS */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 24px 0;
+    }
+    
+    .stat-card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      padding: 20px 16px;
+      text-align: center;
+    }
+    
+    .stat-card .admin {
+      font-size: 11px;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 600;
+      color: #888;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    
+    .stat-card .number {
+      font-size: 28px;
+      font-weight: 700;
+      color: #4ecca3;
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1;
+    }
+    
+    .stat-card .label {
+      font-size: 12px;
+      color: #aaa;
+      margin-top: 8px;
+      line-height: 1.3;
+    }
+    
+    .stat-card .note {
+      font-size: 11px;
+      color: #666;
+      margin-top: 6px;
+      font-style: italic;
+    }
+    
+    /* COMPARISON SECTION */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 24px 0;
+    }
+    
+    .comparison-col {
+      border-radius: 12px;
+      padding: 24px;
+    }
+    
+    .comparison-col.good {
+      background: rgba(78, 204, 163, 0.08);
+      border: 1px solid rgba(78, 204, 163, 0.3);
+    }
+    
+    .comparison-col.bad {
+      background: rgba(233, 69, 96, 0.08);
+      border: 1px solid rgba(233, 69, 96, 0.3);
+    }
+    
+    .comparison-col h3 {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: 1px;
+    }
+    
+    .comparison-col.good h3 {
+      color: #4ecca3;
+    }
+    
+    .comparison-col.bad h3 {
+      color: #e94560;
+    }
+    
+    .comparison-item {
+      font-size: 14px;
+      color: #ccc;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      line-height: 1.4;
+    }
+    
+    .comparison-item:last-child {
+      border-bottom: none;
+    }
+    
+    .comparison-item .icon {
+      margin-right: 8px;
+    }
+    
+    /* QUOTE CARD */
+    .quote-card {
+      background: rgba(255,255,255,0.03);
+      border-left: 4px solid #e94560;
+      border-radius: 0 8px 8px 0;
+      padding: 20px 24px;
+      margin: 20px 0;
+    }
+    
+    .quote-card .quote {
+      font-size: 16px;
+      color: #e8e8e8;
+      font-style: italic;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    
+    .quote-card .source {
+      font-size: 12px;
+      color: #888;
+    }
+    
+    /* KEY STAT ROW */
+    .key-stat-row {
+      display: flex;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    
+    .key-stat {
+      flex: 1;
+      background: rgba(233, 69, 96, 0.1);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .key-stat .number {
+      font-size: 36px;
+      font-weight: 700;
+      color: #e94560;
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1;
+    }
+    
+    .key-stat .label {
+      font-size: 12px;
+      color: #aaa;
+      margin-top: 8px;
+    }
+    
+    /* PROFIT SECTION */
+    .profit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    
+    .profit-card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      padding: 20px;
+    }
+    
+    .profit-card .company {
+      font-size: 14px;
+      font-weight: 600;
+      color: #e8e8e8;
+      font-family: 'Inter', system-ui, sans-serif;
+      margin-bottom: 8px;
+    }
+    
+    .profit-card .detail {
+      font-size: 13px;
+      color: #aaa;
+      line-height: 1.4;
+    }
+    
+    .profit-card .amount {
+      color: #e94560;
+      font-weight: 600;
+    }
+    
+    .conflict-box {
+      background: rgba(233, 69, 96, 0.15);
+      border: 1px solid rgba(233, 69, 96, 0.4);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+    
+    .conflict-box .label {
+      font-size: 11px;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 600;
+      color: #e94560;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    
+    .conflict-box .text {
+      font-size: 14px;
+      color: #e8e8e8;
+    }
+    
+    /* BOTTOM LINE */
+    .bottom-line {
+      background: rgba(78, 204, 163, 0.08);
+      border: 1px solid rgba(78, 204, 163, 0.3);
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+      margin-top: 32px;
+    }
+    
+    .bottom-line h3 {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 18px;
+      color: #4ecca3;
+      margin-bottom: 16px;
+    }
+    
+    .bottom-line p {
+      font-size: 17px;
+      color: #e8e8e8;
+      line-height: 1.6;
+    }
+    
+    .footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 11px;
+      color: #666;
+      text-align: center;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- HERO -->
+    <div class="hero">
+      <div class="section-header">Fact Check</div>
+      <h1>The "Open Border" <span style="color: #e94560;">Myth</span></h1>
+      <p class="lead">
+        What many were told: Biden and Obama had "open borders" and let anyone walk across.<br>
+        What the data shows: <strong>They deported millions—often more than Trump.</strong>
+      </p>
+      
+      <div class="verdict-box">
+        <div class="verdict">Fact-Checker Consensus</div>
+        <div class="text">PolitiFact, FactCheck.org, and Axios all rated "open border" claims <strong>false or misleading</strong>. The Cato Institute documented <strong>120+ enforcement actions</strong> Biden took to restrict border crossings.</div>
+      </div>
+    </div>
+    
+    <!-- DEPORTATION NUMBERS -->
+    <div class="section">
+      <div class="section-header">The Numbers</div>
+      <h2>Deportations by Administration</h2>
+      
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="admin">Obama</div>
+          <div class="number">~3M</div>
+          <div class="label">Formal deportations</div>
+          <div class="note">Peak: 409,849 in FY2012</div>
+        </div>
+        <div class="stat-card">
+          <div class="admin">Trump (1st Term)</div>
+          <div class="number">~935K</div>
+          <div class="label">Formal deportations</div>
+          <div class="note">Peak: 267,258 in FY2019</div>
+        </div>
+        <div class="stat-card">
+          <div class="admin">Biden</div>
+          <div class="number">~4.5M</div>
+          <div class="label">Total repatriations</div>
+          <div class="note">ICE FY2024: 10-year high</div>
+        </div>
+      </div>
+      
+      <p style="font-size: 15px; color: #aaa; margin-top: 16px;">
+        Obama was labeled <span class="highlight">"Deporter in Chief"</span> by the National Council of La Raza. Biden's ICE hit <span class="good-highlight">271,484 deportations in FY2024</span>—the highest since 2014, surpassing Trump's peak.
+      </p>
+      
+      <p style="font-size: 15px; color: #aaa; margin-top: 12px;">
+        Cato Institute found <span class="good-highlight">51% of Biden-era encounters resulted in removal</span> vs 47% under Trump.
+      </p>
+    </div>
+    
+    <div class="divider"></div>
+    
+    <!-- THE KEY POINT -->
+    <div class="section">
+      <div class="section-header">The Critical Difference</div>
+      <h2>It's not <em>whether</em> they deported—it's <em>how</em></h2>
+      
+      <p style="font-size: 17px; color: #ccc; margin-bottom: 24px;">
+        Both parties enforced immigration law. The difference is whether it was done with <span class="good-highlight">due process and accountability</span>—or with <span class="highlight">masks, military, and mass surveillance</span>.
+      </p>
+      
+      <div class="comparison-grid">
+        <div class="comparison-col good">
+          <h3>✓ OBAMA / BIDEN</h3>
+          <div class="comparison-item"><span class="icon">→</span> Identified agents with visible badges</div>
+          <div class="comparison-item"><span class="icon">→</span> Prioritized criminals and recent arrivals</div>
+          <div class="comparison-item"><span class="icon">→</span> Respected due process in courts</div>
+          <div class="comparison-item"><span class="icon">→</span> Protected sensitive locations (schools, churches, hospitals)</div>
+          <div class="comparison-item"><span class="icon">→</span> Criticized by immigration advocates for being <em>too harsh</em></div>
+        </div>
+        
+        <div class="comparison-col bad">
+          <h3>✕ TRUMP 2025</h3>
+          <div class="comparison-item"><span class="icon">→</span> Masked agents, plain clothes, unmarked vehicles</div>
+          <div class="comparison-item"><span class="icon">→</span> Military deployed against civilians</div>
+          <div class="comparison-item"><span class="icon">→</span> Racial profiling approved by Supreme Court</div>
+          <div class="comparison-item"><span class="icon">→</span> Facial recognition without consent</div>
+          <div class="comparison-item"><span class="icon">→</span> <strong>170+ U.S. citizens wrongfully detained</strong></div>
+        </div>
+      </div>
+      
+      <div class="quote-card">
+        <div class="quote">"Can you imagine a masked marine? It is a matter of honor. To us, masks are associated with cowardly desperados and the despised Ku Klux Klan."</div>
+        <div class="source">— Reagan-appointed federal judge, on masked ICE agents</div>
+      </div>
+      
+      <div class="quote-card">
+        <div class="quote">"We should not have to live in a country where the Government can seize anyone who looks Latino, speaks Spanish, and appears to work a low wage job."</div>
+        <div class="source">— Justice Sonia Sotomayor, dissent in Noem v. Vasquez Perdomo (Sept 2025), which legalized racial profiling</div>
+      </div>
+    </div>
+    
+    <div class="divider"></div>
+    
+    <!-- SURVEILLANCE & PROFIT -->
+    <div class="section">
+      <div class="section-header">Follow The Money</div>
+      <h2>Who profits from this?</h2>
+      
+      <div class="profit-grid">
+        <div class="profit-card">
+          <div class="company">Palantir Technologies</div>
+          <div class="detail">Stock up <span class="amount">200%+</span> since Trump election. <span class="amount">$900M+</span> in federal contracts since Jan 2025. Building "ImmigrationOS" to track deportations.</div>
+        </div>
+        <div class="profit-card">
+          <div class="company">Clearview AI</div>
+          <div class="detail"><span class="amount">$9.2M</span> facial recognition contract (Sept 2025)—largest ever. Banned in Illinois for privacy violations.</div>
+        </div>
+        <div class="profit-card">
+          <div class="company">GEO Group & CoreCivic</div>
+          <div class="detail">Run <span class="amount">90%</span> of immigration detention. Stock up <span class="amount">56-73%</span> since election.</div>
+        </div>
+        <div class="profit-card">
+          <div class="company">Detention Funding</div>
+          <div class="detail"><span class="amount">$45 billion</span> in "One Big Beautiful Bill" — a <span class="amount">365%</span> increase.</div>
+        </div>
+      </div>
+      
+      <div class="conflict-box">
+        <div class="label">⚠️ Conflict of Interest</div>
+        <div class="text">Stephen Miller—architect of Trump's immigration policy—personally owns <strong>$100,000-$250,000</strong> in Palantir stock, per his financial disclosure. The man setting the policy profits from the policy.</div>
+      </div>
+      
+      <div class="quote-card">
+        <div class="quote">"We've never seen anything like this before. Our existing facilities are on full throttle."</div>
+        <div class="source">— GEO Group founder George Zoley, to shareholders</div>
+      </div>
+    </div>
+    
+    <div class="divider"></div>
+    
+    <!-- BOTTOM LINE -->
+    <div class="section">
+      <div class="bottom-line">
+        <h3>The Border Was Never "Open"</h3>
+        <p>
+          Obama and Biden deported <strong>millions</strong>—with accountability, due process, and human dignity.<br><br>
+          What's happening now isn't about border security. It's masked agents, military deployments, facial recognition of U.S. citizens, racial profiling approved by the Supreme Court, and private prison companies calling it <span class="highlight">"the most exciting period"</span> in their history.<br><br>
+          <span class="good-highlight">We can enforce immigration law without building a surveillance state.</span>
+        </p>
+      </div>
+    </div>
+    
+    <div class="footer">
+      Sources: DHS, ICE Annual Reports, Migration Policy Institute, Cato Institute, PolitiFact, FactCheck.org, Axios, NPR, Democracy Now, SEC filings, USAspending.gov, OpenSecrets, Supreme Court opinions • December 2025
+    </div>
+    
+  </div>
+</body>
+</html>

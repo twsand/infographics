@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Words That Kill Science - Federal Research Under Attack 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Code+Pro:wght@400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --red: #c41e3a;
+            --red-dark: #8b1528;
+            --blue: #4a9eff;
+            --bg: #0a0a0a;
+            --bg-light: #1a1a1a;
+            --text: #e8e8e8;
+            --text-muted: #888;
+            --text-dim: #666;
+            --border: #333;
+        }
+        
+        body {
+            font-family: 'Source Serif 4', Georgia, serif;
+            background: linear-gradient(180deg, var(--bg) 0%, var(--bg-light) 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .mono {
+            font-family: 'Source Code Pro', monospace;
+        }
+        
+        .label {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px;
+            color: var(--red);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        
+        /* Header */
+        header {
+            padding: 60px 40px 40px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+        
+        .date-stamp {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 56px;
+            font-weight: 400;
+            line-height: 1.1;
+            margin: 0 0 24px 0;
+            max-width: 800px;
+            letter-spacing: -1px;
+        }
+        
+        h1 .highlight {
+            color: var(--red);
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            color: var(--text-muted);
+            max-width: 600px;
+            line-height: 1.7;
+        }
+        
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-bottom: 1px solid var(--border);
+            background: rgba(196, 30, 58, 0.05);
+        }
+        
+        .stat {
+            padding: 30px 20px;
+            text-align: center;
+            border-right: 1px solid var(--border);
+        }
+        
+        .stat:last-child {
+            border-right: none;
+        }
+        
+        .stat-number {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--red);
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 8px;
+        }
+        
+        /* Trans Section - Crescendo */
+        .trans-section {
+            padding: 80px 40px;
+            background: linear-gradient(135deg, rgba(196, 30, 58, 0.15) 0%, rgba(196, 30, 58, 0.02) 100%);
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .trans-section h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 40px;
+            font-weight: 400;
+            margin: 0 0 40px 0;
+        }
+        
+        .trans-word {
+            background: var(--red);
+            color: #fff;
+            padding: 6px 16px;
+            font-family: 'Source Code Pro', monospace;
+            font-weight: 600;
+        }
+        
+        .trans-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+        
+        .trans-stat {
+            position: relative;
+        }
+        
+        .trans-number {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 96px;
+            font-weight: 700;
+            line-height: 1;
+        }
+        
+        .trans-number.red { color: var(--red); }
+        .trans-number.blue { color: var(--blue); }
+        
+        .trans-desc {
+            font-size: 16px;
+            color: var(--text-muted);
+            margin-top: 12px;
+            line-height: 1.5;
+        }
+        
+        .trans-desc strong {
+            color: var(--text);
+        }
+        
+        .biology-terms {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .bio-term {
+            background: rgba(74, 158, 255, 0.12);
+            border: 1px solid rgba(74, 158, 255, 0.3);
+            padding: 8px 16px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 13px;
+            color: var(--blue);
+        }
+        
+        .trans-callout {
+            margin-top: 50px;
+            padding: 24px 30px;
+            background: rgba(0, 0, 0, 0.5);
+            border-left: 4px solid var(--red);
+        }
+        
+        .trans-callout p {
+            font-size: 18px;
+            line-height: 1.7;
+            color: #ccc;
+            font-style: italic;
+        }
+        
+        .trans-callout .percentage {
+            font-family: 'Source Code Pro', monospace;
+            font-weight: 700;
+            color: var(--red);
+            font-style: normal;
+        }
+        
+        /* Flagged Words Section */
+        .flagged-section {
+            padding: 60px 40px;
+        }
+        
+        .flagged-section h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 32px;
+            font-weight: 400;
+            margin: 0 0 40px 0;
+        }
+        
+        .words-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--border);
+        }
+        
+        .word-card {
+            background: var(--bg);
+            padding: 28px;
+            position: relative;
+            transition: background 0.2s;
+        }
+        
+        .word-card:hover {
+            background: var(--bg-light);
+        }
+        
+        .word-indicator {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            width: 10px;
+            height: 10px;
+            background: var(--red);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        
+        .word-term {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 22px;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        
+        .word-context {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+        
+        .word-context strong {
+            color: var(--text);
+        }
+        
+        .word-absurdity {
+            font-size: 13px;
+            color: var(--text-dim);
+        }
+        
+        /* Mechanism Section */
+        .mechanism-section {
+            padding: 60px 40px;
+            border-top: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .mechanism-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        
+        .mechanism-step {
+            padding: 28px;
+            border: 1px solid var(--border);
+            position: relative;
+            background: var(--bg);
+        }
+        
+        .step-number {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 36px;
+            color: #2a2a2a;
+            position: absolute;
+            top: 16px;
+            right: 16px;
+        }
+        
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        
+        .step-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        
+        /* Real Impact Section */
+        .impact-section {
+            padding: 60px 40px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .impact-section h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 32px;
+            font-weight: 400;
+            margin: 0 0 40px 0;
+        }
+        
+        .impact-examples {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        
+        .impact-card {
+            padding: 24px;
+            background: rgba(196, 30, 58, 0.05);
+            border-left: 3px solid var(--red);
+        }
+        
+        .impact-title {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 14px;
+            color: var(--red);
+            margin-bottom: 8px;
+        }
+        
+        .impact-desc {
+            font-size: 15px;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        /* Quote Section */
+        .quote-section {
+            padding: 100px 40px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            background: linear-gradient(180deg, rgba(196, 30, 58, 0.05) 0%, transparent 100%);
+        }
+        
+        blockquote {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 28px;
+            font-style: italic;
+            max-width: 750px;
+            margin: 0 auto;
+            line-height: 1.5;
+            color: #ccc;
+        }
+        
+        cite {
+            display: block;
+            margin-top: 30px;
+            font-size: 14px;
+            color: var(--text-dim);
+            font-style: normal;
+            letter-spacing: 1px;
+        }
+        
+        .quote-context {
+            margin-top: 30px;
+            font-size: 16px;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+        
+        /* Footer */
+        footer {
+            padding: 40px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: var(--text-dim);
+        }
+        
+        .footer-date {
+            font-family: 'Source Code Pro', monospace;
+            letter-spacing: 2px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 900px) {
+            .stats-bar,
+            .mechanism-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .trans-comparison {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .trans-number {
+                font-size: 72px;
+            }
+            
+            h1 {
+                font-size: 40px;
+            }
+            
+            .words-grid,
+            .impact-examples {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .stats-bar {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .mechanism-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header, 
+            .trans-section,
+            .flagged-section,
+            .mechanism-section,
+            .impact-section,
+            .quote-section,
+            footer {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="noise-overlay"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="date-stamp">JANUARY — DECEMBER 2025</div>
+            <div class="label">Federal Research Under Attack</div>
+            <h1>The Words That <span class="highlight">Kill</span> Science</h1>
+            <p class="subtitle">
+                AI algorithms now scan federal research grants for "prohibited" terminology. 
+                Common scientific vocabulary—words essential to biology and medicine—can now 
+                end your funding with no appeal.
+            </p>
+        </header>
+        
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-number">$3.8B+</div>
+                <div class="stat-label">Funding Terminated</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">2,500+</div>
+                <div class="stat-label">Grants Cancelled</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">74,000</div>
+                <div class="stat-label">Patients Abandoned</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">700+</div>
+                <div class="stat-label">Titles Self-Censored</div>
+            </div>
+        </div>
+        
+        <!-- Trans Section - The Crescendo -->
+        <section class="trans-section">
+            <div class="label">Case Study: Collateral Damage</div>
+            
+            <h2>
+                The word <span class="trans-word">trans</span> was flagged <strong>426 times</strong> in terminated grants
+            </h2>
+            
+            <div class="trans-comparison">
+                <div class="trans-stat">
+                    <div class="trans-number red">6</div>
+                    <div class="trans-desc">
+                        referred to <strong>transgender</strong> research
+                    </div>
+                </div>
+                
+                <div class="trans-stat">
+                    <div class="trans-number blue">420</div>
+                    <div class="trans-desc">
+                        referred to <strong>legitimate biology</strong>:
+                    </div>
+                </div>
+            </div>
+            
+            <div class="biology-terms">
+                <span class="bio-term">transcription factors</span>
+                <span class="bio-term">trans-membrane proteins</span>
+                <span class="bio-term">signal transduction</span>
+                <span class="bio-term">trans-splicing</span>
+                <span class="bio-term">transactivation</span>
+                <span class="bio-term">transcriptomics</span>
+                <span class="bio-term">translational research</span>
+                <span class="bio-term">trans-Golgi network</span>
+                <span class="bio-term">transporter proteins</span>
+                <span class="bio-term">trans-synaptic signaling</span>
+            </div>
+            
+            <div class="trans-callout">
+                <p>
+                    A keyword-based approach caught <span class="percentage">98.6%</span> innocent science in its net. 
+                    This isn't precision policy—it's a dragnet that treats "transporter proteins" 
+                    the same as transgender research.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Flagged Words Section -->
+        <section class="flagged-section">
+            <div class="label">The Prohibited List</div>
+            <h2>Words that now threaten your research funding</h2>
+            
+            <div class="words-grid">
+                <div class="word-card">
+                    <div class="word-indicator"></div>
+                    <div class="word-term">"female"</div>
+                    <div class="word-context"><strong>Essential biological term</strong></div>
+                    <div class="word-absurdity">Required for any sex-specific health research. Cannot study breast cancer, ovarian function, or pregnancy without it.</div>
+                </div>
+                
+                <div class="word-card">
+                    <div class="word-indicator"></div>
+                    <div class="word-term">"women"</div>
+                    <div class="word-context"><strong>Half of all patients</strong></div>
+                    <div class="word-absurdity">NIH's own 2016 policy required sex-specific research. That guidance is now marked "historic."</div>
+                </div>
+                
+                <div class="word-card">
+                    <div class="word-indicator"></div>
+                    <div class="word-term">"gender"</div>
+                    <div class="word-context"><strong>Basic demographic variable</strong></div>
+                    <div class="word-absurdity">Appears in virtually every clinical trial protocol and epidemiological study.</div>
+                </div>
+                
+                <div class="word-card">
+                    <div class="word-indicator"></div>
+                    <div class="word-term">"diversity"</div>
+                    <div class="word-context"><strong>Scientific methodology</strong></div>
+                    <div class="word-absurdity">Diverse study populations produce more reliable, generalizable results. That's just good science.</div>
+                </div>
+                
+                <div class="word-card">
+                    <div class="word-indicator"></div>
+                    <div class="word-term">"barrier"</div>
+                    <div class="word-context"><strong>Common research term</strong></div>
+                    <div class="word-absurdity">Blood-brain barrier? Access barriers? Language barriers in healthcare? All flagged.</div>
+                </div>
+                
+                <div class="word-card">
+                    <div class="word-indicator"></div>
+                    <div class="word-term">"climate change"</div>
+                    <div class="word-context"><strong>Documented phenomenon</strong></div>
+                    <div class="word-absurdity">Removed from kidney disease grant as "background information." Mentioning it anywhere risks funding.</div>
+                </div>
+                
+                <div class="word-card">
+                    <div class="word-indicator"></div>
+                    <div class="word-term">"COVID-19"</div>
+                    <div class="word-context"><strong>Recent global pandemic</strong></div>
+                    <div class="word-absurdity">Cannot reference major health event affecting millions. Long COVID research defunded.</div>
+                </div>
+                
+                <div class="word-card">
+                    <div class="word-indicator"></div>
+                    <div class="word-term">"historically"</div>
+                    <div class="word-context"><strong>Time reference</strong></div>
+                    <div class="word-absurdity">Basic historical context—"historically underserved," "historically Black"—triggers automatic review.</div>
+                </div>
+                
+                <div class="word-card">
+                    <div class="word-indicator"></div>
+                    <div class="word-term">"vulnerable"</div>
+                    <div class="word-context"><strong>At-risk populations</strong></div>
+                    <div class="word-absurdity">Cannot identify who needs help most. Elderly, immunocompromised, children—all "vulnerable."</div>
+                </div>
+                
+                <div class="word-card">
+                    <div class="word-indicator"></div>
+                    <div class="word-term">"disparity"</div>
+                    <div class="word-context"><strong>Health outcomes research</strong></div>
+                    <div class="word-absurdity">Studying why some groups have worse outcomes is now ideological. The National Institute on Minority Health faces elimination.</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Mechanism Section -->
+        <section class="mechanism-section">
+            <div class="label">How It Works</div>
+            
+            <div class="mechanism-grid">
+                <div class="mechanism-step">
+                    <div class="step-number">01</div>
+                    <div class="step-title">AI Scans</div>
+                    <div class="step-desc">Algorithms search grant titles, abstracts, and full text for flagged keywords</div>
+                </div>
+                
+                <div class="mechanism-step">
+                    <div class="step-number">02</div>
+                    <div class="step-title">Auto-Flag</div>
+                    <div class="step-desc">Any match triggers review—context doesn't matter. "Trans-membrane" = transgender to the algorithm.</div>
+                </div>
+                
+                <div class="mechanism-step">
+                    <div class="step-number">03</div>
+                    <div class="step-title">DOGE Review</div>
+                    <div class="step-desc">Political appointees—not scientists—make final funding decisions</div>
+                </div>
+                
+                <div class="mechanism-step">
+                    <div class="step-number">04</div>
+                    <div class="step-title">Terminated</div>
+                    <div class="step-desc">No appeal process. Funding stops immediately. Clinical trial patients abandoned mid-treatment.</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Real Impact Section -->
+        <section class="impact-section">
+            <div class="label">Real Consequences</div>
+            <h2>This isn't about saving money—it's about control</h2>
+            
+            <div class="impact-examples">
+                <div class="impact-card">
+                    <div class="impact-title">383 Clinical Trials Disrupted</div>
+                    <div class="impact-desc">
+                        Patients enrolled in active studies—cancer treatments, Alzheimer's trials, 
+                        diabetes research—left without care or answers. Some had been participating for years.
+                    </div>
+                </div>
+                
+                <div class="impact-card">
+                    <div class="impact-title">30-Year Study Ended</div>
+                    <div class="impact-desc">
+                        Columbia's diabetes/Alzheimer's research program—three decades of longitudinal 
+                        data—terminated. $18 million lost. Irreplaceable long-term research destroyed.
+                    </div>
+                </div>
+                
+                <div class="impact-card">
+                    <div class="impact-title">Self-Censorship Spreading</div>
+                    <div class="impact-desc">
+                        700+ researchers changed grant titles to avoid flagged words. Program officers 
+                        admitted forcing removal of "climate change" from unrelated kidney disease research.
+                    </div>
+                </div>
+                
+                <div class="impact-card">
+                    <div class="impact-title">Whistleblowers Punished</div>
+                    <div class="impact-desc">
+                        Dr. Jenna Norton, who organized 342 NIH staff to sign the Bethesda Declaration, 
+                        was placed on administrative leave. Speaking out has consequences.
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Quote Section -->
+        <section class="quote-section">
+            <blockquote>
+                "Say it's 1955 and we're funding Jonas Salk. 
+                We might have just canceled his grant. 
+                That's hard to sleep with."
+            </blockquote>
+            <cite>— Anonymous NIH Program Director, 2025</cite>
+            <p class="quote-context">
+                Jonas Salk developed the polio vaccine—one of the greatest medical breakthroughs in history. 
+                His research would have contained flagged terms like "vulnerable populations" and "children."
+            </p>
+        </section>
+        
+        <!-- Footer -->
+        <footer>
+            <div>
+                Sources: Science Magazine, JAMA, STAT News, Washington Post, 
+                Grant Witness database, leaked internal NIH documents
+            </div>
+            <div class="footer-date">DATA CURRENT AS OF DECEMBER 2025</div>
+        </footer>
+    </div>
+</body>
+</html>

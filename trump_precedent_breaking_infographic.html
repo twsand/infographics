@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breaking Precedent: Trump's Second Term</title>
+    <style>
+        @page {
+            size: 11in 50in;
+            margin: 0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #0d1117;
+            color: #e6edf3;
+            line-height: 1.5;
+            max-width: 11in;
+            margin: 0 auto;
+            font-size: 120%;
+        }
+        
+        .container {
+            max-width: 10.5in;
+            margin: 0 auto;
+            padding: 0.5in 0.25in;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 0.4in 0;
+            border-bottom: 4px solid #c9363a;
+            margin-bottom: 0.3in;
+        }
+        
+        .header h1 {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 64px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: #d8d8d8;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 22px;
+            color: #8b949e;
+            font-weight: 400;
+        }
+        
+        .header .date {
+            font-size: 14px;
+            color: #6e7681;
+            margin-top: 8px;
+        }
+        
+        /* Stats Banner */
+        .stats-banner {
+            display: flex;
+            justify-content: space-around;
+            background: linear-gradient(135deg, #1a1f2e 0%, #161b22 100%);
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 25px 20px;
+            margin-bottom: 0.35in;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-family: Impact, 'Arial Black', sans-serif;
+            font-size: 52px;
+            color: #c9363a;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 13px;
+            color: #8b949e;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+        
+        /* Section styling */
+        .section {
+            margin-bottom: 0.35in;
+            page-break-inside: avoid;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #21262d;
+        }
+        
+        .section-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            color: #666;
+        }
+        
+        .section-title {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 26px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #b8b8b8;
+            text-transform: uppercase;
+        }
+        
+        .section-content {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        /* Fact items */
+        .fact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .fact-item {
+            background: #0d1117;
+            border-left: 4px solid #c9363a;
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .fact-item.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .fact-title {
+            font-weight: 700;
+            font-size: 15px;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+        
+        .fact-detail {
+            font-size: 13px;
+            color: #8b949e;
+            line-height: 1.4;
+        }
+        
+        .fact-detail strong {
+            color: #c9363a;
+        }
+        
+        /* Quote callout */
+        .quote-box {
+            background: linear-gradient(135deg, #1f1315 0%, #161b22 100%);
+            border: 1px solid #c9363a40;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 15px 0;
+            font-style: italic;
+            color: #e6edf3;
+            position: relative;
+        }
+        
+        .quote-box::before {
+            content: '"';
+            font-family: Georgia, serif;
+            font-size: 48px;
+            color: #c9363a;
+            position: absolute;
+            top: -5px;
+            left: 10px;
+            opacity: 0.5;
+        }
+        
+        .quote-attribution {
+            font-style: normal;
+            font-size: 12px;
+            color: #6e7681;
+            margin-top: 8px;
+            text-align: right;
+        }
+        
+        /* Timeline style for some sections */
+        .timeline-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 12px;
+            align-items: flex-start;
+        }
+        
+        .timeline-date {
+            background: #c9363a;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        .timeline-content {
+            font-size: 14px;
+            color: #e6edf3;
+        }
+        
+        /* Comparison boxes */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .comparison-box {
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .comparison-box.said {
+            background: #1a2332;
+            border: 1px solid #388bfd40;
+        }
+        
+        .comparison-box.did {
+            background: #2d1a1a;
+            border: 1px solid #c9363a40;
+        }
+        
+        .comparison-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        
+        .comparison-box.said .comparison-label {
+            color: #388bfd;
+        }
+        
+        .comparison-box.did .comparison-label {
+            color: #c9363a;
+        }
+        
+        .comparison-text {
+            font-size: 13px;
+            color: #e6edf3;
+        }
+        
+        /* Icon colors removed - using muted styling */
+        
+        /* Big number callout */
+        .big-number {
+            display: inline-block;
+            font-family: Impact, 'Arial Black', sans-serif;
+            font-size: 36px;
+            color: #c9363a;
+            line-height: 1;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        
+        /* List styling */
+        .bullet-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .bullet-list li {
+            padding: 8px 0 8px 25px;
+            position: relative;
+            font-size: 14px;
+            border-bottom: 1px solid #21262d;
+        }
+        
+        .bullet-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .bullet-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #c9363a;
+            font-size: 12px;
+        }
+        
+        /* Source footer */
+        .sources {
+            margin-top: 0.3in;
+            padding-top: 15px;
+            border-top: 1px solid #30363d;
+            font-size: 11px;
+            color: #6e7681;
+        }
+        
+        .sources-title {
+            font-weight: 700;
+            color: #8b949e;
+            margin-bottom: 8px;
+        }
+        
+        /* Highlight text */
+        .highlight {
+            background: #c9363a30;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        
+        /* Two column layout helper */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .section-intro {
+            font-size: 15px;
+            color: #8b949e;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #30363d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>BREAKING PRECEDENT</h1>
+            <div class="subtitle">Documented Departures from Presidential Norms in Trump's Second Term</div>
+            <div class="date">Data compiled December 2025 • Sources: AP, Reuters, PBS, NPR, GAO, Federal Courts</div>
+        </div>
+        
+        <!-- Stats Banner -->
+        <div class="stats-banner">
+            <div class="stat-item">
+                <div class="stat-number">88</div>
+                <div class="stat-label">Executive Orders Blocked</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">6</div>
+                <div class="stat-label">GAO Law Violations</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">$400M</div>
+                <div class="stat-label">Qatar Plane Gift</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">1,600</div>
+                <div class="stat-label">Jan 6 Pardons</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">17</div>
+                <div class="stat-label">IGs Fired Illegally</div>
+            </div>
+        </div>
+        
+        <!-- Section 1: White House Alterations -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">§</div>
+                <h2 class="section-title">WHITE HOUSE DESTRUCTION & ALTERATIONS</h2>
+            </div>
+            <div class="section-content">
+                <div class="section-intro">
+                    The most extensive physical changes to the White House since Truman's 1948 reconstruction—directly contradicting the administration's own public assurances.
+                </div>
+                
+                <div class="comparison">
+                    <div class="comparison-box said">
+                        <div class="comparison-label">What They Said</div>
+                        <div class="comparison-text">
+                            <strong>July 31, 2025:</strong> Press Secretary Karoline Leavitt stated "Nothing will be torn down." Trump promised it would "not interfere with the current building."
+                        </div>
+                    </div>
+                    <div class="comparison-box did">
+                        <div class="comparison-label">What They Did</div>
+                        <div class="comparison-text">
+                            <strong>October 2025:</strong> The entire East Wing was demolished—the first destruction of a White House wing since British troops burned the building in 1814.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fact-grid" style="margin-top: 15px;">
+                    <div class="fact-item">
+                        <div class="fact-title">$250-300 Million Ballroom</div>
+                        <div class="fact-detail">90,000 sq ft addition funded by <strong>undisclosed private donors</strong>. Proceeded without National Capital Planning Commission approval.</div>
+                    </div>
+                    <div class="fact-item">
+                        <div class="fact-title">Rose Garden Paved Over</div>
+                        <div class="fact-detail">Kennedy-era lawn replaced with white stones in $1.9M project. Trump's reason: "Women, with the high heels, it just didn't work."</div>
+                    </div>
+                    <div class="fact-item">
+                        <div class="fact-title">Oval Office Gilded</div>
+                        <div class="fact-detail">24-karat gold trim, cherubs from Mar-a-Lago, gold medallions added throughout.</div>
+                    </div>
+                    <div class="fact-item">
+                        <div class="fact-title">"Independence Arch" Proposed</div>
+                        <div class="fact-detail">When asked who the monument commemorates, Trump pointed at himself and said <strong>"me."</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Qatar Plane -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">◆</div>
+                <h2 class="section-title">FOREIGN GIFTS: THE QATAR JET</h2>
+            </div>
+            <div class="section-content">
+                <div class="section-intro">
+                    The Boeing 747-8 from Qatar's royal family represents <span class="big-number">100×</span> the value of every foreign presidential gift since 2001 combined.
+                </div>
+                
+                <div class="fact-grid">
+                    <div class="fact-item full-width">
+                        <div class="fact-title">Constitutional Concerns</div>
+                        <div class="fact-detail">Columbia Law professor Richard Briffault called it a <strong>"pretty textbook case of a violation of the Emoluments Clause"</strong>—which prohibits accepting foreign gifts without congressional consent. Trump has not sought such consent.</div>
+                    </div>
+                    <div class="fact-item">
+                        <div class="fact-title">Contradicted Narrative</div>
+                        <div class="fact-detail">CNN reported (4 sources) that the <strong>Trump administration first approached Qatar</strong> about the plane—contradicting Trump's claim it was an unsolicited gift.</div>
+                    </div>
+                    <div class="fact-item">
+                        <div class="fact-title">Conflict of Interest</div>
+                        <div class="fact-detail">AG Pam Bondi was a paid Qatar lobbyist. Trump Organization announced a <strong>$5.5 billion golf resort near Doha</strong>.</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 15px;">
+                    <div class="fact-title" style="margin-bottom: 10px;">Other Notable 2025 Foreign Gifts:</div>
+                    <ul class="bullet-list">
+                        <li><strong>Switzerland:</strong> 1-kilogram gold bar and gold Rolex clock from executives seeking tariff relief (tariffs cut from 39% to 15% ten days later—Swiss politicians filed bribery complaints)</li>
+                        <li><strong>Russia:</strong> Putin sent a commissioned portrait</li>
+                        <li><strong>South Korea:</strong> Replica gold crown presented</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section 3: Cryptocurrency -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">¤</div>
+                <h2 class="section-title">CRYPTOCURRENCY BUSINESS CONFLICTS</h2>
+            </div>
+            <div class="section-content">
+                <div class="section-intro">
+                    The Trump family's crypto ventures generated an estimated <span class="big-number">$800M</span> in the first half of 2025 alone.
+                </div>
+                
+                <div class="two-col">
+                    <div>
+                        <div class="fact-item" style="margin-bottom: 15px;">
+                            <div class="fact-title">$TRUMP Meme Coin</div>
+                            <div class="fact-detail">
+                                Launched 3 days before inauguration. Peaked at <strong>$27 billion market cap</strong>. Trump entities control 80% of tokens. Chainalysis data: <strong>764,000 wallets lost money</strong> while just 58 wallets gained $10M+.
+                            </div>
+                        </div>
+                        <div class="fact-item">
+                            <div class="fact-title">Pay-to-Play Dinners</div>
+                            <div class="fact-detail">Top coin holders offered dinner with Trump; top 25 got White House tours. Coin spiked 50% on announcement.</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="fact-item" style="margin-bottom: 15px;">
+                            <div class="fact-title">World Liberty Financial</div>
+                            <div class="fact-detail">
+                                Trump is "Co-Founder Emeritus," family receives <strong>75% of revenue</strong>. Processed $2B transaction with Abu Dhabi state-backed MGX for Binance investment.
+                            </div>
+                        </div>
+                        <div class="fact-item">
+                            <div class="fact-title">Suspicious Timing</div>
+                            <div class="fact-detail">
+                                Trump pardoned Binance founder (guilty plea to money laundering)—then said "I don't know who he is." Crypto entrepreneur facing SEC fraud dropped $30M into World Liberty; SEC dropped his case.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="quote-box">
+                    Senators Warren and Merkley warned this "may violate the Emoluments Clause" and "could be used as a backdoor for foreign kickbacks and bribes."
+                    <div class="quote-attribution">— Senate letter, 2025</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section 4: Courts -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">‡</div>
+                <h2 class="section-title">COURT BATTLES & DEFIANCE</h2>
+            </div>
+            <div class="section-content">
+                <div class="section-intro">
+                    The administration faces <span class="big-number">530+</span> active lawsuits. Courts have blocked 88 executive orders. Washington Post found the administration accused of defying court orders in <strong>35% of cases ruled against it</strong>—unprecedented in modern history.
+                </div>
+                
+                <div class="fact-grid">
+                    <div class="fact-item">
+                        <div class="fact-title">Birthright Citizenship Order</div>
+                        <div class="fact-detail">Judge called it <strong>"blatantly unconstitutional."</strong> Four federal judges and Ninth Circuit blocked it. Contradicts 14th Amendment and 125 years of Supreme Court precedent. SCOTUS hearing Dec 5, 2025.</div>
+                    </div>
+                    <div class="fact-item">
+                        <div class="fact-title">IEEPA Tariffs Struck Down</div>
+                        <div class="fact-detail">First time in 50 years a president claimed tariff authority under emergency powers. Federal Circuit ruled 7-4: tariff power is <strong>"vested exclusively in the legislative branch."</strong> JPMorgan: 70-80% odds SCOTUS rules against.</div>
+                    </div>
+                    <div class="fact-item full-width">
+                        <div class="fact-title">Abrego Garcia: Defying the Supreme Court</div>
+                        <div class="fact-detail">SCOTUS ruled <strong>unanimously 9-0</strong> the administration must "facilitate" return of illegally deported man. In a TV interview, Trump acknowledged he could bring him back but chose not to. Judge accused DOJ of "willful and intentional noncompliance."</div>
+                    </div>
+                    <div class="fact-item full-width">
+                        <div class="fact-title">Deportation Flights Continued Despite Court Order</div>
+                        <div class="fact-detail">Despite Judge James Boasberg's order halting deportation flights, <strong>137 people were flown to El Salvador hours later</strong>. Contempt proceedings opened. WH adviser Stephen Miller posted images of judges with caption: "We are living under a judicial tyranny."</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section 5: Spending/Impoundment -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">$</div>
+                <h2 class="section-title">ILLEGAL SPENDING FREEZES</h2>
+            </div>
+            <div class="section-content">
+                <div class="section-intro">
+                    The most significant challenge to congressional "power of the purse" since Nixon. The GAO has documented <span class="big-number">6</span> violations of the Impoundment Control Act—the law passed specifically to prevent presidents from refusing to spend appropriated funds.
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Jan 27, 2025</div>
+                    <div class="timeline-content">OMB ordered all agencies to "temporarily pause" grants and loans—potentially <strong>trillions of dollars</strong>. Judge described "nationwide panic" as organizations were shut out of funding portals.</div>
+                </div>
+                
+                <div style="margin: 15px 0;">
+                    <div class="fact-title" style="margin-bottom: 10px;">Programs Illegally Frozen (per GAO):</div>
+                    <ul class="bullet-list">
+                        <li><strong>$5 billion</strong> frozen for electric vehicle infrastructure</li>
+                        <li><strong>Head Start</strong> funding disbursed at only 65%</li>
+                        <li><strong>1,800+ NIH grants</strong> terminated ($783 million)</li>
+                        <li><strong>FEMA</strong> emergency food and shelter programs delayed</li>
+                        <li><strong>Institute of Museum and Library Services</strong> grants withheld</li>
+                        <li><strong>Renew America's Schools</strong> funding blocked</li>
+                    </ul>
+                </div>
+                
+                <div class="quote-box">
+                    OMB Director Russell Vought dismissed the GAO findings as "non-events with no consequence."
+                </div>
+                
+                <div class="fact-item full-width" style="margin-top: 15px;">
+                    <div class="fact-title">USAID Eliminated</div>
+                    <div class="fact-detail">First Cabinet-level agency eliminated by executive action (July 1, 2025). The Lancet estimates the cuts could cause <strong>14 million deaths by 2030</strong> if continued.</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section 6: January 6 Pardons -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">¶</div>
+                <h2 class="section-title">JANUARY 6 PARDONS</h2>
+            </div>
+            <div class="section-content">
+                <div class="section-intro">
+                    On Day 1, Trump pardoned or commuted sentences for nearly <span class="big-number">1,600</span> January 6 defendants—including leaders of the Proud Boys and Oath Keepers convicted of seditious conspiracy.
+                </div>
+                
+                <div class="fact-grid">
+                    <div class="fact-item">
+                        <div class="fact-title">600+ Police Assaulters</div>
+                        <div class="fact-detail">Individuals convicted of assaulting or obstructing law enforcement received full pardons.</div>
+                    </div>
+                    <div class="fact-item">
+                        <div class="fact-title">170+ Deadly Weapons</div>
+                        <div class="fact-detail">Individuals convicted of using deadly weapons received pardons.</div>
+                    </div>
+                    <div class="fact-item">
+                        <div class="fact-title">Seditious Conspiracy Leaders</div>
+                        <div class="fact-detail">Enrique Tarrio (Proud Boys, 22-year sentence) and Stewart Rhodes (Oath Keepers, 18-year sentence) had sentences commuted.</div>
+                    </div>
+                    <div class="fact-item">
+                        <div class="fact-title">$1.3 Billion in Restitution</div>
+                        <div class="fact-detail">Trump removed restitution requirements, costing victims an estimated $1.3 billion.</div>
+                    </div>
+                </div>
+                
+                <div class="quote-box">
+                    "A miscarriage of justice, a betrayal, a mockery."
+                    <div class="quote-attribution">— Capitol Police Sergeant Aquilino Gonell, injured in the attack</div>
+                </div>
+                
+                <div class="fact-item full-width" style="margin-top: 15px;">
+                    <div class="fact-title">Inside Sources on Decision</div>
+                    <div class="fact-detail">Trump reportedly made the blanket decision "at last minute," saying <strong>"F*** it: Release 'em all."</strong> Even the Fraternal Order of Police, which endorsed Trump, condemned the pardons.</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section 7: Inspector Generals -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">○</div>
+                <h2 class="section-title">INSPECTOR GENERAL PURGE</h2>
+            </div>
+            <div class="section-content">
+                <div class="section-intro">
+                    On January 24, 2025, Trump fired <span class="big-number">17</span> inspectors general in a "Friday night purge"—the largest such action since Reagan, whose mass firings prompted Congress to pass protective legislation.
+                </div>
+                
+                <div class="comparison">
+                    <div class="comparison-box said">
+                        <div class="comparison-label">What the Law Requires</div>
+                        <div class="comparison-text">
+                            The 2022 Inspector General Act requires <strong>30-day notice to Congress</strong> and a "substantive rationale" for removal.
+                        </div>
+                    </div>
+                    <div class="comparison-box did">
+                        <div class="comparison-label">What Trump Did</div>
+                        <div class="comparison-text">
+                            Fired all 17 immediately with <strong>no notice and no rationale</strong> provided to Congress.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fact-grid" style="margin-top: 15px;">
+                    <div class="fact-item">
+                        <div class="fact-title">Court Ruling: Unlawful</div>
+                        <div class="fact-detail">On September 24, 2025, Judge Ana C. Reyes ruled the firings were <strong>unlawful</strong> but declined to reinstate the officials.</div>
+                    </div>
+                    <div class="fact-item">
+                        <div class="fact-title">75% Vacancy Rate</div>
+                        <div class="fact-detail">Currently, over 75% of presidentially appointed IG positions sit vacant.</div>
+                    </div>
+                    <div class="fact-item full-width">
+                        <div class="fact-title">Notable Firings with Active Investigations</div>
+                        <div class="fact-detail">Robert Storch (Defense Dept) had opened a review of <strong>SpaceX compliance</strong>. Phyllis Fong (Agriculture) was investigating <strong>Elon Musk's Neuralink</strong>.</div>
+                    </div>
+                </div>
+                
+                <div class="quote-box">
+                    "The 30 day detailed notice of removal that the law demands was not provided to Congress."
+                    <div class="quote-attribution">— Senator Chuck Grassley (R-Iowa)</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section 8: DOJ Weaponization -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">†</div>
+                <h2 class="section-title">JUSTICE DEPARTMENT: PROSECUTING CRITICS, PROTECTING ALLIES</h2>
+            </div>
+            <div class="section-content">
+                <div class="two-col">
+                    <div>
+                        <div class="fact-title" style="margin-bottom: 10px; color: #c9363a;">Prosecutions of Critics:</div>
+                        <ul class="bullet-list">
+                            <li>Former FBI Director <strong>James Comey</strong> indicted (case dismissed Nov 2025 for procedural violations)</li>
+                            <li>NY AG <strong>Letitia James</strong> indicted on fraud charges (case dismissed)</li>
+                            <li>Senator <strong>Adam Schiff</strong> under investigation for alleged mortgage fraud</li>
+                            <li>Senator <strong>Mark Kelly</strong> under Pentagon investigation for comments about illegal orders</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="fact-title" style="margin-bottom: 10px; color: #3fb950;">Cases Dropped for Allies:</div>
+                        <ul class="bullet-list">
+                            <li>NYC Mayor <strong>Eric Adams</strong> (cooperating on immigration)—7 prosecutors quit, calling it an "unlawful quid pro quo"</li>
+                            <li>Rep. <strong>Jeff Fortenberry</strong></li>
+                            <li>Rep. <strong>Andy Ogles</strong> (introduced Trump third-term bill)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="quote-box" style="margin-top: 15px;">
+                    "The Department of Justice is thumbing its nose at the courts, and putting Justice Department attorneys in an impossible position where they have to choose between loyalty to the agenda of the president and their duty to the court."
+                    <div class="quote-attribution">— Career DOJ attorney Erez Reuveni, to the New York Times</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section 9: Said vs Did -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">↔</div>
+                <h2 class="section-title">PATTERN OF REVERSALS: SAID VS. DID</h2>
+            </div>
+            <div class="section-content">
+                <div class="section-intro">
+                    A documented pattern of publicly claiming one position, then doing the opposite.
+                </div>
+                
+                <div class="comparison" style="margin-bottom: 15px;">
+                    <div class="comparison-box said">
+                        <div class="comparison-label">Project 2025 (Sept 2024)</div>
+                        <div class="comparison-text">"I have nothing to do with Project 2025. I haven't read it. I don't want to read it purposely."</div>
+                    </div>
+                    <div class="comparison-box did">
+                        <div class="comparison-label">Project 2025 (Oct 2025)</div>
+                        <div class="comparison-text">Posted: "I have a meeting today with Russ Vought of PROJECT 2025 fame." Cabinet includes multiple Project 2025 authors.</div>
+                    </div>
+                </div>
+                
+                <div class="comparison" style="margin-bottom: 15px;">
+                    <div class="comparison-box said">
+                        <div class="comparison-label">TikTok (2020)</div>
+                        <div class="comparison-text">Signed executive orders calling the app a "national security threat."</div>
+                    </div>
+                    <div class="comparison-box did">
+                        <div class="comparison-label">TikTok (2025)</div>
+                        <div class="comparison-text">After SCOTUS unanimously upheld bipartisan ban, Trump declined to enforce it. Now supports deal leaving Chinese investors with ~20% stake.</div>
+                    </div>
+                </div>
+                
+                <div class="comparison" style="margin-bottom: 15px;">
+                    <div class="comparison-box said">
+                        <div class="comparison-label">Tariff Pause (April 7, 2025)</div>
+                        <div class="comparison-text">"We're not looking at that." Press secretary called the idea "fake news."</div>
+                    </div>
+                    <div class="comparison-box did">
+                        <div class="comparison-label">Tariff Pause (April 9, 2025)</div>
+                        <div class="comparison-text">Announced a 90-day pause. Two days later.</div>
+                    </div>
+                </div>
+                
+                <div class="fact-item full-width">
+                    <div class="fact-title">Additional Documented Reversals</div>
+                    <div class="fact-detail">
+                        Fired then rehired workers at CDC, FDA, and National Nuclear Security Administration • Listed 80M sq ft of government real estate for sale then removed listings • Threatened to fire Fed Chair Powell then stated he wouldn't • Promised not to cut Medicaid while backing GOP budget that could force cuts
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sources Footer -->
+        <div class="sources">
+            <div class="sources-title">Primary Sources</div>
+            AP News • Reuters • PBS NewsHour • NPR • Government Accountability Office (GAO) • Federal Court Records • Congressional Research Service • CBS News • NBC News • ABC News • Washington Post • New York Times • Snopes • FactCheck.org • Axios • CNN
+        </div>
+    </div>
+</body>
+</html>

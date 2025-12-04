@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Impossible Gap - Billionaire Wealth in America 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Code+Pro:wght@400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --gold: #d4af37;
+            --gold-dark: #a68829;
+            --gold-glow: rgba(212, 175, 55, 0.3);
+            --red: #c41e3a;
+            --green: #2d8f4e;
+            --bg: #0a0a0a;
+            --bg-light: #111;
+            --bg-card: #141414;
+            --text: #e8e8e8;
+            --text-muted: #888;
+            --text-dim: #555;
+            --border: #222;
+        }
+        
+        body {
+            font-family: 'Source Serif 4', Georgia, serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .mono {
+            font-family: 'Source Code Pro', monospace;
+        }
+        
+        .label {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px;
+            color: var(--gold);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        
+        /* Header */
+        header {
+            padding: 60px 40px 50px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            background: linear-gradient(180deg, rgba(212, 175, 55, 0.08) 0%, transparent 100%);
+        }
+        
+        .date-stamp {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 52px;
+            font-weight: 400;
+            line-height: 1.15;
+            margin: 0 0 24px 0;
+            max-width: 900px;
+            letter-spacing: -1px;
+        }
+        
+        h1 .highlight {
+            color: var(--gold);
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            color: var(--text-muted);
+            max-width: 700px;
+            line-height: 1.7;
+        }
+        
+        /* The Big Number */
+        .big-reveal {
+            padding: 80px 40px;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg) 0%, rgba(212, 175, 55, 0.05) 50%, var(--bg) 100%);
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+        
+        .big-reveal::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        
+        .years-number {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 160px;
+            font-weight: 700;
+            color: var(--gold);
+            line-height: 1;
+            text-shadow: 0 0 80px var(--gold-glow);
+            position: relative;
+        }
+        
+        .years-label {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 42px;
+            color: var(--text);
+            margin-top: 10px;
+            font-weight: 400;
+        }
+        
+        .years-context {
+            font-size: 18px;
+            color: var(--text-muted);
+            margin-top: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+        
+        /* The Scenario */
+        .scenario-section {
+            padding: 70px 40px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .scenario-section h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 36px;
+            font-weight: 400;
+            margin-bottom: 40px;
+        }
+        
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: 1fr 80px 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .scenario-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 40px;
+            position: relative;
+        }
+        
+        .scenario-card.magic {
+            border-color: var(--green);
+            box-shadow: 0 0 40px rgba(45, 143, 78, 0.1);
+        }
+        
+        .scenario-card.musk {
+            border-color: var(--gold);
+            box-shadow: 0 0 40px var(--gold-glow);
+        }
+        
+        .card-label {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        
+        .card-label.green { color: var(--green); }
+        .card-label.gold { color: var(--gold); }
+        
+        .card-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .card-amount {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .card-amount.green { color: var(--green); }
+        .card-amount.gold { color: var(--gold); }
+        
+        .card-detail {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        
+        .card-breakdown {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 13px;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+        }
+        
+        .breakdown-row span:last-child {
+            color: var(--text);
+        }
+        
+        .vs-circle {
+            width: 80px;
+            height: 80px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 14px;
+            color: var(--text-dim);
+            background: var(--bg);
+        }
+        
+        /* Magic Beans Callout */
+        .magic-callout {
+            background: linear-gradient(135deg, rgba(45, 143, 78, 0.15) 0%, rgba(45, 143, 78, 0.02) 100%);
+            border: 1px solid rgba(45, 143, 78, 0.3);
+            padding: 30px 40px;
+            margin-top: 40px;
+        }
+        
+        .magic-callout p {
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+        
+        .magic-callout strong {
+            color: var(--green);
+        }
+        
+        /* The Timeline Visualization */
+        .timeline-section {
+            padding: 70px 40px;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-light);
+        }
+        
+        .timeline-section h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 32px;
+            font-weight: 400;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        
+        .cant-visualize {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 50px;
+        }
+        
+        .cant-visualize-text {
+            font-size: 20px;
+            line-height: 1.7;
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+        
+        .cant-visualize-text strong {
+            color: var(--gold);
+        }
+        
+        .cant-visualize-subtext {
+            font-size: 16px;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        
+        .scale-facts {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .scale-fact {
+            text-align: center;
+        }
+        
+        .scale-number {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--gold);
+        }
+        
+        .scale-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 8px;
+        }
+        
+        .scale-divider {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 24px;
+            color: var(--text-dim);
+        }
+        
+        /* Earnings Per Second */
+        .earnings-section {
+            padding: 70px 40px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .earnings-section h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 32px;
+            font-weight: 400;
+            margin-bottom: 16px;
+        }
+        
+        .earnings-subtitle {
+            color: var(--text-muted);
+            font-size: 16px;
+            margin-bottom: 40px;
+        }
+        
+        .earnings-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        
+        .earnings-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 30px 24px;
+            text-align: center;
+        }
+        
+        .earnings-time {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        
+        .earnings-amount {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+        
+        .earnings-compare {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        
+        /* The Tax Reality */
+        .tax-section {
+            padding: 70px 40px;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(180deg, var(--bg) 0%, rgba(196, 30, 58, 0.08) 50%, var(--bg) 100%);
+        }
+        
+        .tax-section h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 32px;
+            font-weight: 400;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        
+        .tax-hero {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+            margin-bottom: 50px;
+        }
+        
+        .tax-then, .tax-now {
+            text-align: center;
+        }
+        
+        .tax-era-big {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 14px;
+            letter-spacing: 3px;
+            color: var(--text-dim);
+            margin-bottom: 8px;
+        }
+        
+        .tax-rate-hero {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 120px;
+            font-weight: 700;
+            line-height: 1;
+        }
+        
+        .tax-rate-hero.high { 
+            color: var(--green); 
+            text-shadow: 0 0 60px rgba(45, 143, 78, 0.4);
+        }
+        .tax-rate-hero.low { 
+            color: var(--red); 
+            text-shadow: 0 0 60px rgba(196, 30, 58, 0.4);
+        }
+        
+        .tax-type {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+        
+        .tax-arrow {
+            font-size: 48px;
+            color: var(--text-dim);
+        }
+        
+        .tax-details-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .tax-detail-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 24px;
+            text-align: center;
+        }
+        
+        .tax-detail-label {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        
+        .tax-detail-compare {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .tax-detail-compare .then { color: var(--green); }
+        .tax-detail-compare .arrow { color: var(--text-dim); font-size: 18px; }
+        .tax-detail-compare .now { color: var(--red); }
+        .tax-detail-compare .now.alone { font-size: 32px; }
+        
+        .tax-detail-note {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+        
+        .tax-context {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+        
+        .tax-context strong {
+            color: var(--text);
+        }
+        
+        /* The Reality Check */
+        .reality-section {
+            padding: 70px 40px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .reality-section h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 32px;
+            font-weight: 400;
+            margin-bottom: 40px;
+        }
+        
+        .reality-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        
+        .reality-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 30px;
+        }
+        
+        .reality-number {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+        
+        .reality-fact {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        
+        /* Closing Statement */
+        .closing-section {
+            padding: 80px 40px;
+            text-align: center;
+            background: var(--bg-light);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .closing-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .closing-content h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 36px;
+            font-weight: 400;
+            margin-bottom: 24px;
+            color: var(--gold);
+        }
+        
+        .closing-content > p {
+            font-size: 18px;
+            line-height: 1.7;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+        
+        .closing-content > p strong {
+            color: var(--text);
+        }
+        
+        .lifetime-stat {
+            margin-bottom: 16px;
+        }
+        
+        .lifetime-number {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 96px;
+            font-weight: 700;
+            color: var(--gold);
+            text-shadow: 0 0 60px var(--gold-glow);
+        }
+        
+        .lifetime-label {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 32px;
+            color: var(--text);
+            margin-left: 16px;
+        }
+        
+        .lifetime-context {
+            font-size: 16px;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 40px;
+            text-align: center;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px;
+            color: var(--text-dim);
+            border-top: 1px solid var(--border);
+        }
+        
+        .footer-sources {
+            margin-bottom: 16px;
+            line-height: 1.8;
+        }
+        
+        .footer-date {
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        /* Responsive */
+        @media (max-width: 900px) {
+            h1 { font-size: 36px; }
+            .years-number { font-size: 100px; }
+            .years-label { font-size: 28px; }
+            .scenario-grid { grid-template-columns: 1fr; }
+            .vs-circle { display: none; }
+            .earnings-grid { grid-template-columns: repeat(2, 1fr); }
+            .tax-hero { flex-direction: column; gap: 30px; }
+            .tax-rate-hero { font-size: 80px; }
+            .tax-arrow { transform: rotate(90deg); }
+            .tax-details-grid { grid-template-columns: 1fr; }
+            .reality-grid { grid-template-columns: 1fr; }
+            .scale-facts { flex-direction: column; gap: 20px; }
+            .lifetime-number { font-size: 64px; }
+            .lifetime-label { display: block; margin-left: 0; margin-top: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="noise-overlay"></div>
+    
+    <div class="container">
+        <header>
+            <div class="date-stamp">DECEMBER 2025</div>
+            <div class="label">Wealth Inequality in America</div>
+            <h1>Even with <span class="highlight">magic beans</span>, you'll never catch up</h1>
+            <p class="subtitle">
+                What if your balloon business had zero expenses, perfect flying weather every day, 
+                and free crew—forever? How long would it take to match Elon Musk's wealth? 
+                The answer reveals why "billionaire" isn't just a bigger version of "successful."
+            </p>
+        </header>
+        
+        <!-- The Big Reveal -->
+        <section class="big-reveal">
+            <div class="label">The Answer</div>
+            <div class="years-number">67,361</div>
+            <div class="years-label">years</div>
+            <p class="years-context">
+                That's how long it would take—flying <strong>10 premium balloon rides every single night</strong> with 
+                <strong>zero expenses</strong>—to accumulate Elon Musk's current net worth. 
+                For perspective, modern humans have only existed for about 50,000 years.
+            </p>
+        </section>
+        
+        <!-- The Scenario -->
+        <section class="scenario-section">
+            <div class="label">The Thought Experiment</div>
+            <h2>The magic beans scenario</h2>
+            
+            <div class="scenario-grid">
+                <div class="scenario-card magic">
+                    <div class="card-label green">Your Balloon Business + Magic</div>
+                    <div class="card-title">The Perfect Scenario</div>
+                    <div class="card-amount green">$17,490</div>
+                    <div class="card-detail">
+                        Ten premium rides at $1,749 each—every single night. Weather is always perfect. 
+                        Crew shows up free. Envelopes never wear out. Baskets never need replacing. 
+                        No propane, no insurance, no maintenance. Pure profit, 365 days a year.
+                    </div>
+                    <div class="card-breakdown">
+                        <div class="breakdown-row">
+                            <span>Per night (10 rides)</span>
+                            <span>$17,490</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>Per year</span>
+                            <span>$6,383,850</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>Per decade</span>
+                            <span>$63,838,500</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>Per century</span>
+                            <span>$638,385,000</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="vs-circle">VS</div>
+                
+                <div class="scenario-card musk">
+                    <div class="card-label gold">Elon Musk</div>
+                    <div class="card-title">Current Net Worth</div>
+                    <div class="card-amount gold">$430B</div>
+                    <div class="card-detail">
+                        As of December 2024. Peaked at $447 billion. First person in history to 
+                        cross $400 billion. Worth more than the GDP of 170 countries.
+                    </div>
+                    <div class="card-breakdown">
+                        <div class="breakdown-row">
+                            <span>March 2020</span>
+                            <span>$25B</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>Gain since 2020</span>
+                            <span>+$405B</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>Multiplier</span>
+                            <span>17×</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>Post-election surge</span>
+                            <span>+77%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="magic-callout">
+                <p>
+                    <strong>Here's what the math reveals:</strong> Even in this impossible fantasy—10 premium 
+                    balloon flights every night, perfect weather year-round, free crew, zero expenses—you'd need 
+                    <strong>67,361 years</strong> to match Musk's current wealth. And that's with his wealth frozen. 
+                    In reality, he gains more in a single day than you'd make in 90 years of this magic scenario.
+                </p>
+            </div>
+        </section>
+        
+        <!-- The Impossible Visualization -->
+        <section class="timeline-section">
+            <div class="label">Scale Comparison</div>
+            <h2>Why we can't show you the gap</h2>
+            
+            <div class="cant-visualize">
+                <p class="cant-visualize-text">
+                    If Musk's wealth were a mile-long bar on this screen, your magic balloon year 
+                    would be <strong>0.0015%</strong> of that length—about <strong>one-tenth of one inch</strong>. 
+                    The median American income would be invisible at <strong>0.00002%</strong>—thinner than a human hair.
+                </p>
+                <p class="cant-visualize-subtext">
+                    That's the point. The gap isn't just large. It's incomprehensible by design.
+                </p>
+            </div>
+            
+            <div class="scale-facts">
+                <div class="scale-fact">
+                    <div class="scale-number">$430,000,000,000</div>
+                    <div class="scale-label">Musk's wealth</div>
+                </div>
+                <div class="scale-divider">÷</div>
+                <div class="scale-fact">
+                    <div class="scale-number">$6,383,850</div>
+                    <div class="scale-label">Your magic year</div>
+                </div>
+                <div class="scale-divider">=</div>
+                <div class="scale-fact">
+                    <div class="scale-number">67,361×</div>
+                    <div class="scale-label">The multiplier</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Musk's Earnings Rate -->
+        <section class="earnings-section">
+            <div class="label">The Acceleration Problem</div>
+            <h2>What Musk's wealth gained in 2024 alone</h2>
+            <p class="earnings-subtitle">His wealth grew by approximately $213 billion in one year. Here's what that looks like broken down:</p>
+            
+            <div class="earnings-grid">
+                <div class="earnings-card">
+                    <div class="earnings-time">Per Day</div>
+                    <div class="earnings-amount">$583M</div>
+                    <div class="earnings-compare">91× your entire magic year</div>
+                </div>
+                <div class="earnings-card">
+                    <div class="earnings-time">Per Hour</div>
+                    <div class="earnings-amount">$24.3M</div>
+                    <div class="earnings-compare">3.8× your magic year</div>
+                </div>
+                <div class="earnings-card">
+                    <div class="earnings-time">Per Minute</div>
+                    <div class="earnings-amount">$405K</div>
+                    <div class="earnings-compare">23× your magic night</div>
+                </div>
+                <div class="earnings-card">
+                    <div class="earnings-time">Per Second</div>
+                    <div class="earnings-amount">$6,750</div>
+                    <div class="earnings-compare">Median worker's week</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Tax Reality -->
+        <section class="tax-section">
+            <div class="label">How We Got Here</div>
+            <h2>The tax rates that built the middle class vs. today</h2>
+            
+            <div class="tax-hero">
+                <div class="tax-then">
+                    <div class="tax-era-big">1950s</div>
+                    <div class="tax-rate-hero high">91%</div>
+                    <div class="tax-type">Top Marginal Rate</div>
+                </div>
+                <div class="tax-arrow">→</div>
+                <div class="tax-now">
+                    <div class="tax-era-big">2025</div>
+                    <div class="tax-rate-hero low">37%</div>
+                    <div class="tax-type">Top Marginal Rate</div>
+                </div>
+            </div>
+            
+            <div class="tax-details-grid">
+                <div class="tax-detail-card">
+                    <div class="tax-detail-label">Estate Tax Threshold</div>
+                    <div class="tax-detail-compare">
+                        <span class="then">$60,000</span>
+                        <span class="arrow">→</span>
+                        <span class="now">$13,610,000</span>
+                    </div>
+                    <div class="tax-detail-note">227× higher exemption today</div>
+                </div>
+                <div class="tax-detail-card">
+                    <div class="tax-detail-label">Corporate Tax Rate</div>
+                    <div class="tax-detail-compare">
+                        <span class="then">52%</span>
+                        <span class="arrow">→</span>
+                        <span class="now">21%</span>
+                    </div>
+                    <div class="tax-detail-note">Cut by more than half</div>
+                </div>
+                <div class="tax-detail-card">
+                    <div class="tax-detail-label">What Billionaires Actually Pay</div>
+                    <div class="tax-detail-compare">
+                        <span class="now alone">3.4%</span>
+                    </div>
+                    <div class="tax-detail-note">On $401B in wealth growth (ProPublica)</div>
+                </div>
+            </div>
+            
+            <div class="tax-context">
+                The 1950s rates funded the Interstate Highway System, the space program, and the 
+                largest expansion of the middle class in American history. Today, a typical household 
+                pays <strong>14%</strong> on their income while the 25 richest Americans pay <strong>3.4%</strong> 
+                on their wealth growth.
+            </div>
+        </section>
+        
+        <!-- Reality Check -->
+        <section class="reality-section">
+            <div class="label">The Bottom Line</div>
+            <h2>What the numbers tell us</h2>
+            
+            <div class="reality-grid">
+                <div class="reality-card">
+                    <div class="reality-number">813</div>
+                    <div class="reality-fact">
+                        American billionaires control $6.72 trillion—more than double their 
+                        wealth from 4 years ago ($2.95T in March 2020)
+                    </div>
+                </div>
+                <div class="reality-card">
+                    <div class="reality-number">3.4%</div>
+                    <div class="reality-fact">
+                        The "true tax rate" paid by the 25 richest Americans on $401B in 
+                        wealth growth. A typical household pays 14% on income.
+                    </div>
+                </div>
+                <div class="reality-card">
+                    <div class="reality-number">2.5%</div>
+                    <div class="reality-fact">
+                        Share of total US wealth owned by the bottom 50%—roughly 66 million 
+                        households combined. Unchanged in 30 years.
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Closing Statement -->
+        <section class="closing-section">
+            <div class="closing-content">
+                <h2>This isn't about you</h2>
+                <p>
+                    When we talk about taxing billionaires, successful business owners often think we mean them. 
+                    But even someone making millions every year—with every possible advantage—is still 
+                    <strong>tens of thousands of years</strong> behind. That's not a gap you close with hard work. 
+                    That's not a gap you close at all.
+                </p>
+                <div class="lifetime-stat">
+                    <span class="lifetime-number">842</span>
+                    <span class="lifetime-label">lifetimes</span>
+                </div>
+                <p class="lifetime-context">
+                    That's how many 80-year lifetimes it would take to catch up—even in the 
+                    dream scenario where everything works out perfectly, forever.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer>
+            <div class="footer-sources">
+                Sources: Forbes Real-Time Billionaire List, ProPublica "Secret IRS Files," 
+                Federal Reserve Distributional Financial Accounts, Tax Policy Center, 
+                Americans for Tax Fairness, Congressional Budget Office
+            </div>
+            <div class="footer-date">Data current as of December 2025</div>
+        </footer>
+    </div>
+</body>
+</html>

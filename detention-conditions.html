@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why Is This Happening?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Source Serif 4', Georgia, serif;
+      background: linear-gradient(180deg, #0d0d0d 0%, #1a1a1a 100%);
+      color: #fff;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 28px;
+    }
+    
+    /* SECTION STYLES */
+    .section {
+      margin-bottom: 48px;
+    }
+    
+    .section-header {
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: #e94560;
+      font-weight: 600;
+      margin-bottom: 16px;
+      font-family: 'Inter', system-ui, sans-serif;
+      text-transform: uppercase;
+    }
+    
+    h1 {
+      font-size: 42px;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    
+    h2 {
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    
+    .lead {
+      font-size: 20px;
+      color: #ccc;
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+    
+    .highlight {
+      color: #e94560;
+      font-weight: 600;
+    }
+    
+    .money-highlight {
+      color: #4ecca3;
+      font-weight: 700;
+    }
+    
+    /* HERO SECTION */
+    .hero {
+      text-align: center;
+      padding: 60px 0 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 48px;
+    }
+    
+    .hero h1 {
+      font-size: 52px;
+    }
+    
+    .answer-box {
+      background: rgba(233, 69, 96, 0.15);
+      border: 1px solid rgba(233, 69, 96, 0.4);
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+      margin: 32px 0;
+    }
+    
+    .answer-box .big-word {
+      font-size: 72px;
+      font-weight: 800;
+      color: #4ecca3;
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1;
+    }
+    
+    .answer-box .subtext {
+      font-size: 18px;
+      color: #aaa;
+      margin-top: 12px;
+    }
+    
+    /* FEE CARDS */
+    .fee-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 24px 0;
+    }
+    
+    .fee-card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .fee-card.wide {
+      grid-column: span 2;
+    }
+    
+    .fee-amount {
+      font-size: 32px;
+      font-weight: 700;
+      color: #4ecca3;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    
+    .fee-label {
+      font-size: 13px;
+      color: #aaa;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+    
+    .fee-note {
+      font-size: 11px;
+      color: #666;
+      margin-top: 8px;
+      font-style: italic;
+    }
+    
+    /* CONDITION CARDS */
+    .condition-card {
+      background: rgba(233, 69, 96, 0.1);
+      border-left: 4px solid #e94560;
+      border-radius: 0 8px 8px 0;
+      padding: 20px 24px;
+      margin: 16px 0;
+    }
+    
+    .condition-card .quote {
+      font-size: 16px;
+      color: #f1f1f1;
+      font-style: italic;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    
+    .condition-card .source {
+      font-size: 12px;
+      color: #888;
+    }
+    
+    .stat-row {
+      display: flex;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    
+    .stat-box {
+      flex: 1;
+      background: rgba(255,255,255,0.03);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .stat-box .number {
+      font-size: 36px;
+      font-weight: 700;
+      color: #e94560;
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1;
+    }
+    
+    .stat-box .label {
+      font-size: 12px;
+      color: #aaa;
+      margin-top: 8px;
+    }
+    
+    /* ABUSE LIST */
+    .abuse-list {
+      margin: 24px 0;
+    }
+    
+    .abuse-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .abuse-icon {
+      width: 24px;
+      height: 24px;
+      background: rgba(233, 69, 96, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #e94560;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    
+    .abuse-text {
+      font-size: 15px;
+      color: #ccc;
+    }
+    
+    /* DEATH SECTION */
+    .death-stat {
+      background: linear-gradient(135deg, rgba(233, 69, 96, 0.2) 0%, rgba(233, 69, 96, 0.05) 100%);
+      border: 1px solid rgba(233, 69, 96, 0.3);
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+      margin: 32px 0;
+    }
+    
+    .death-stat .number {
+      font-size: 80px;
+      font-weight: 800;
+      color: #e94560;
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1;
+    }
+    
+    .death-stat .label {
+      font-size: 18px;
+      color: #f1f1f1;
+      margin-top: 12px;
+    }
+    
+    .death-stat .context {
+      font-size: 14px;
+      color: #888;
+      margin-top: 8px;
+    }
+    
+    /* MONEY TRAIL */
+    .money-flow {
+      margin: 32px 0;
+    }
+    
+    .money-step {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 0;
+    }
+    
+    .money-step .arrow {
+      font-size: 24px;
+      color: #4ecca3;
+    }
+    
+    .money-step .content {
+      flex: 1;
+    }
+    
+    .money-step .amount {
+      font-size: 24px;
+      font-weight: 700;
+      color: #4ecca3;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    
+    .money-step .description {
+      font-size: 14px;
+      color: #aaa;
+      margin-top: 4px;
+    }
+    
+    /* QUOTE CALLOUT */
+    .ceo-quote {
+      background: rgba(78, 204, 163, 0.1);
+      border: 1px solid rgba(78, 204, 163, 0.3);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 24px 0;
+    }
+    
+    .ceo-quote .quote-text {
+      font-size: 18px;
+      color: #f1f1f1;
+      font-style: italic;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    
+    .ceo-quote .attribution {
+      font-size: 13px;
+      color: #4ecca3;
+    }
+    
+    /* FINAL SECTION */
+    .final-stat {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      border: 2px solid #e94560;
+      border-radius: 16px;
+      padding: 40px 32px;
+      text-align: center;
+      margin: 40px 0;
+    }
+    
+    .final-stat .big-number {
+      font-size: 56px;
+      font-weight: 800;
+      color: #e94560;
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1;
+    }
+    
+    .final-stat .context {
+      font-size: 20px;
+      color: #f1f1f1;
+      margin-top: 16px;
+      line-height: 1.4;
+    }
+    
+    .final-stat .subtext {
+      font-size: 14px;
+      color: #888;
+      margin-top: 16px;
+    }
+    
+    /* PUNCHLINE */
+    .punchline {
+      text-align: center;
+      padding: 40px 0;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .punchline p {
+      font-size: 18px;
+      color: #aaa;
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    
+    .punchline .emphasis {
+      color: #f1f1f1;
+      font-weight: 600;
+    }
+    
+    /* FOOTER */
+    .footer {
+      text-align: center;
+      padding: 32px 0;
+      font-size: 10px;
+      color: #555;
+    }
+    
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(233,69,96,0.3), transparent);
+      margin: 48px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- HERO -->
+    <div class="hero">
+      <h1>Why Is This Happening?</h1>
+      <p class="lead">We were told this was about removing dangerous criminals. It's not. So what's really driving the largest detention operation in American history?</p>
+    </div>
+    
+    <!-- THE ANSWER -->
+    <div class="answer-box">
+      <div class="big-word">Money.</div>
+      <div class="subtext">Billions of dollars are flowing through this system. Here's how.</div>
+    </div>
+    
+    <div class="divider"></div>
+    
+    <!-- FEES SECTION -->
+    <div class="section">
+      <div class="section-header">What Detainees Are Being Charged</div>
+      <h2>People in detention—many with no income, no access to work—are being charged fees at every step.</h2>
+      
+      <div class="fee-grid">
+        <div class="fee-card">
+          <div class="fee-amount">$100</div>
+          <div class="fee-label">To apply for asylum</div>
+          <div class="fee-note">Previously free</div>
+        </div>
+        <div class="fee-card">
+          <div class="fee-amount">$100/yr</div>
+          <div class="fee-label">Annual fee while case is pending</div>
+          <div class="fee-note">Cases often take years</div>
+        </div>
+        <div class="fee-card">
+          <div class="fee-amount">$550</div>
+          <div class="fee-label">Work permit application</div>
+          <div class="fee-note">Must renew every 6 months</div>
+        </div>
+        <div class="fee-card">
+          <div class="fee-amount">$100</div>
+          <div class="fee-label">Each time you ask for more time to find a lawyer</div>
+          <div class="fee-note">Per continuance</div>
+        </div>
+        <div class="fee-card wide">
+          <div class="fee-amount">$900</div>
+          <div class="fee-label">To appeal an immigration judge's decision</div>
+          <div class="fee-note">Up from $110</div>
+        </div>
+      </div>
+      
+      <p style="font-size: 15px; color: #aaa; margin-top: 20px;">
+        The American Immigration Council: These fees "apply even for people who are locked in ICE detention centers and <span class="highlight">have no access to money</span>, essentially forcing people to proceed with their cases without any opportunity to get a lawyer."
+      </p>
+      
+      <p style="font-size: 15px; color: #aaa; margin-top: 16px;">
+        In at least one documented case, an immigration judge <span class="highlight">ordered someone deported for nonpayment</span>—before any mechanism to pay the fee even existed.
+      </p>
+    </div>
+    
+    <div class="divider"></div>
+    
+    <!-- CONDITIONS SECTION -->
+    <div class="section">
+      <div class="section-header">What They Get For That Money</div>
+      <h2>They're being charged hundreds of dollars while living in conditions like this:</h2>
+      
+      <div class="condition-card">
+        <div class="quote">"Cells built for 66 people were crammed with up to 155. People slept head-to-foot on thin mats while others were held in cramped visitation rooms for over two weeks with only one exposed toilet."</div>
+        <div class="source">— Human Rights Watch, Krome Detention Center, February-March 2025</div>
+      </div>
+      
+      <div class="condition-card">
+        <div class="quote">"A cup of rice and a glass of water a day."</div>
+        <div class="source">— Detainee account, Krome Detention Center, Miami, 2025</div>
+      </div>
+      
+      <div class="condition-card">
+        <div class="quote">"Crammed into the perimeter of a very tiny room for up to 48 hours. They defecate in front of each other, they eat, they sleep on stone floors."</div>
+        <div class="source">— Rep. Debbie Wasserman-Schultz after visiting Krome Detention Center, Miami, May 2025</div>
+      </div>
+      
+      <div class="condition-card">
+        <div class="quote">"Shackled on buses for extended periods without food, water, or functioning toilets."</div>
+        <div class="source">— Human Rights Watch, July 2025, documenting conditions at Krome, Broward Transitional Center, and Federal Detention Center (Miami)</div>
+      </div>
+      
+      <div class="condition-card">
+        <div class="quote">"The only way I could describe it frankly is it's an absolute hell hole."</div>
+        <div class="source">— Federal Judge Julie Robinson (Bush appointee) on CoreCivic's Leavenworth facility</div>
+      </div>
+      
+      <h3 style="margin-top: 32px; font-size: 18px; font-family: Inter, sans-serif; color: #e94560;">Documented Abuses</h3>
+      
+      <div class="abuse-list">
+        <div class="abuse-item">
+          <div class="abuse-icon">✕</div>
+          <div class="abuse-text">Pregnant detainee repeatedly asked for medical attention and was told to "just drink water" (Sen. Ossoff investigation, July 2025)</div>
+        </div>
+        <div class="abuse-item">
+          <div class="abuse-icon">✕</div>
+          <div class="abuse-text">Angie Rodriguez (Colombia) miscarried alone in a hospital after weeks without prenatal care at Mesa Verde facility, Bakersfield CA—detained after routine check-in, July 2025</div>
+        </div>
+        <div class="abuse-item">
+          <div class="abuse-icon">✕</div>
+          <div class="abuse-text">Man with chronic illness collapsed after transfer from Federal Detention Center to Broward Transitional Center—medications confiscated, family found him hospitalized under a false name</div>
+        </div>
+        <div class="abuse-item">
+          <div class="abuse-icon">✕</div>
+          <div class="abuse-text">Solitary confinement used as punishment for requesting mental health care (Broward Transitional Center)</div>
+        </div>
+        <div class="abuse-item">
+          <div class="abuse-icon">✕</div>
+          <div class="abuse-text">Holding cells called "la hielera" (the icebox)—AC cranked so high detainees couldn't sleep, fearing hypothermia, held for up to 11 days with no bedding</div>
+        </div>
+        <div class="abuse-item">
+          <div class="abuse-icon">✕</div>
+          <div class="abuse-text">Rotten food served at multiple facilities</div>
+        </div>
+        <div class="abuse-item">
+          <div class="abuse-icon">✕</div>
+          <div class="abuse-text">Chaofeng Ge found dead with hands and feet tied at Krome—ICE claimed suicide, attorney disputes</div>
+        </div>
+      </div>
+      
+      <p style="font-size: 14px; color: #888; margin-top: 24px;">
+        Senator Jon Ossoff's investigation (July 2025) identified <span class="highlight">510 credible reports of human rights abuses</span>, including 41 allegations of physical or sexual abuse and 18 reports of mistreatment of children.
+      </p>
+    </div>
+    
+    <div class="divider"></div>
+    
+    <!-- DEATHS SECTION -->
+    <div class="section">
+      <div class="section-header">The Human Cost</div>
+      
+      <div class="death-stat">
+        <div class="number">23</div>
+        <div class="label">Deaths in ICE custody in 2025</div>
+        <div class="context">The deadliest year since 2004—worse than the COVID pandemic year</div>
+      </div>
+      
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="number">66,000+</div>
+          <div class="label">Currently detained (record high)</div>
+        </div>
+        <div class="stat-box">
+          <div class="number">72-74%</div>
+          <div class="label">Have no criminal conviction</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="divider"></div>
+    
+    <!-- FOLLOW THE MONEY -->
+    <div class="section">
+      <div class="section-header">Follow The Money</div>
+      <h2>So where is all of this going?</h2>
+      
+      <p style="font-size: 16px; color: #ccc; margin-bottom: 24px;">
+        <span class="money-highlight">90% of immigration detention</span> is run by private, for-profit corporations. The two biggest players: <strong>CoreCivic</strong> and <strong>GEO Group</strong>.
+      </p>
+      
+      <div class="money-flow">
+        <div class="money-step">
+          <div class="arrow">→</div>
+          <div class="content">
+            <div class="amount">$2.8 million</div>
+            <div class="description">CoreCivic and GEO Group donated to Trump's campaign and inaugural fund</div>
+          </div>
+        </div>
+        <div class="money-step">
+          <div class="arrow">→</div>
+          <div class="content">
+            <div class="amount">$45 billion</div>
+            <div class="description">Allocated for detention in the "One Big Beautiful Bill Act" (a 365% increase)</div>
+          </div>
+        </div>
+        <div class="money-step">
+          <div class="arrow">→</div>
+          <div class="content">
+            <div class="amount">$3 billion</div>
+            <div class="description">GEO Group's expected revenue next year</div>
+          </div>
+        </div>
+        <div class="money-step">
+          <div class="arrow">→</div>
+          <div class="content">
+            <div class="amount">56-73%</div>
+            <div class="description">How much their stock prices have risen since the election</div>
+          </div>
+        </div>
+      </div>
+      
+      <p style="font-size: 15px; color: #aaa; margin: 24px 0;">
+        The administration is using <span class="highlight">no-bid contracts</span> citing "compelling urgency"—bypassing competitive bidding to fast-track billions to these companies.
+      </p>
+      
+      <p style="font-size: 15px; color: #aaa;">
+        They're reopening facilities that were shut down for abuses. CoreCivic is reopening a facility in Leavenworth, Kansas that a federal judge described as "an absolute hell hole" where detainees were locked in showers as punishment.
+      </p>
+    </div>
+    
+    <!-- CEO QUOTES -->
+    <div class="ceo-quote">
+      <div class="quote-text">"Never in our 42-year company history have we had so much activity and demand for our services as we are seeing right now."</div>
+      <div class="attribution">— CoreCivic CEO Damon Hininger, to shareholders</div>
+    </div>
+    
+    <div class="ceo-quote">
+      <div class="quote-text">"We've never seen anything like this before. Our existing facilities are on full throttle."</div>
+      <div class="attribution">— GEO Group founder George Zoley, to shareholders</div>
+    </div>
+    
+    <div class="ceo-quote">
+      <div class="quote-text">"This is truly one of the most exciting periods in my career with the company."</div>
+      <div class="attribution">— CoreCivic CEO Damon Hininger</div>
+    </div>
+    
+    <div class="divider"></div>
+    
+    <!-- THE PUNCHLINE -->
+    <div class="section">
+      <div class="section-header">The Bottom Line</div>
+      
+      <div class="final-stat">
+        <div class="big-number">$11+ billion</div>
+        <div class="context">Additional spending per year on detention</div>
+        <div class="subtext">That's more than the entire federal prison system budget ($8.3B)</div>
+      </div>
+      
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="number">$152</div>
+          <div class="label">Cost per detainee per day (taxpayer money)</div>
+        </div>
+        <div class="stat-box">
+          <div class="number">44 days</div>
+          <div class="label">Average detention length</div>
+        </div>
+      </div>
+      
+      <p style="font-size: 18px; color: #f1f1f1; text-align: center; margin-top: 32px; line-height: 1.6;">
+        We're spending <span class="money-highlight">billions more</span> to detain people—<span class="highlight">72-74% of whom have no criminal conviction</span>—in facilities where they sleep on concrete, get one cup of rice a day, and die at record rates.
+      </p>
+      
+      <p style="font-size: 18px; color: #f1f1f1; text-align: center; margin-top: 16px; line-height: 1.6;">
+        Meanwhile, private prison executives call it <span class="highlight">"unprecedented opportunity"</span> and <span class="highlight">"the most exciting period"</span> in their careers.
+      </p>
+    </div>
+    
+    <div class="punchline">
+      <p>
+        This isn't about public safety. This isn't about saving money. This isn't about "criminals and gangsters."
+      </p>
+      <p style="margin-top: 16px;">
+        <span class="emphasis">It's about funneling billions of taxpayer dollars to private prison companies that donated millions to get this administration elected.</span>
+      </p>
+      <p style="margin-top: 16px;">
+        And the people paying the price—literally and figuratively—are the same hardworking people we've known for decades.
+      </p>
+    </div>
+    
+    <div class="footer">
+      Sources: American Immigration Council, Human Rights Watch, CREW, Citizens for Responsibility and Ethics, PBS, NPR, CNN, NBC News, The Intercept, OpenSecrets, TRAC Immigration, Cato Institute, KFF, Senator Jon Ossoff's Office • December 2025
+    </div>
+    
+  </div>
+</body>
+</html>

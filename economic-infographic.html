@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Money in Your Pocket - What the Data Actually Shows</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Code+Pro:wght@400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --red: #c41e3a;
+            --red-dark: #8b1528;
+            --blue: #4a9eff;
+            --green: #2ecc71;
+            --gold: #f4c542;
+            --bg: #0a0a0a;
+            --bg-light: #1a1a1a;
+            --bg-card: #141414;
+            --text: #e8e8e8;
+            --text-muted: #888;
+            --text-dim: #666;
+            --border: #333;
+        }
+        
+        body {
+            font-family: 'Source Serif 4', Georgia, serif;
+            background: linear-gradient(180deg, var(--bg) 0%, var(--bg-light) 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .mono {
+            font-family: 'Source Code Pro', monospace;
+        }
+        
+        .label {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px;
+            color: var(--red);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        
+        .label.blue { color: var(--blue); }
+        .label.green { color: var(--green); }
+        .label.gold { color: var(--gold); }
+        
+        /* Header */
+        header {
+            padding: 60px 40px 40px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+        
+        .date-stamp {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 52px;
+            font-weight: 400;
+            line-height: 1.1;
+            margin: 0 0 24px 0;
+            max-width: 900px;
+            letter-spacing: -1px;
+        }
+        
+        h1 .highlight {
+            color: var(--red);
+        }
+        
+        h1 .highlight-blue {
+            color: var(--blue);
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            color: var(--text-muted);
+            max-width: 700px;
+            line-height: 1.7;
+        }
+        
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-bottom: 1px solid var(--border);
+            background: rgba(196, 30, 58, 0.05);
+        }
+        
+        .stat {
+            padding: 30px 20px;
+            text-align: center;
+            border-right: 1px solid var(--border);
+        }
+        
+        .stat:last-child {
+            border-right: none;
+        }
+        
+        .stat-number {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--red);
+        }
+        
+        .stat-number.blue { color: var(--blue); }
+        .stat-number.green { color: var(--green); }
+        
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 8px;
+        }
+        
+        /* Section Styles */
+        section {
+            padding: 60px 40px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        section h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 36px;
+            font-weight: 400;
+            margin: 0 0 30px 0;
+            line-height: 1.2;
+        }
+        
+        /* Tariff Section */
+        .tariff-section {
+            background: linear-gradient(135deg, rgba(196, 30, 58, 0.12) 0%, rgba(196, 30, 58, 0.02) 100%);
+        }
+        
+        .reality-check {
+            display: grid;
+            grid-template-columns: 1fr 50px 1fr;
+            gap: 20px;
+            align-items: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+        
+        .myth-side, .reality-side {
+            padding: 20px;
+        }
+        
+        .myth-side h3 {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 12px;
+            color: var(--red);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        
+        .reality-side h3 {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 12px;
+            color: var(--green);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        
+        .myth-side p, .reality-side p {
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        
+        .myth-side .quote {
+            font-size: 22px;
+            color: var(--text);
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        
+        .reality-side .quote {
+            font-size: 22px;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+        
+        .vs-divider {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 14px;
+            color: var(--text-dim);
+            text-align: center;
+        }
+        
+        .tariff-cost {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .cost-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .cost-number {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--red);
+        }
+        
+        .cost-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+        
+        /* Interest Rates Section */
+        .rates-section {
+            background: linear-gradient(135deg, rgba(74, 158, 255, 0.08) 0%, rgba(74, 158, 255, 0.02) 100%);
+        }
+        
+        .rates-explainer {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 40px 0;
+        }
+        
+        .rate-scenario {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 30px;
+            position: relative;
+        }
+        
+        .rate-scenario.good {
+            border-left: 4px solid var(--green);
+        }
+        
+        .rate-scenario.bad {
+            border-left: 4px solid var(--red);
+        }
+        
+        .scenario-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .scenario-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .rate-scenario.good .scenario-icon {
+            background: rgba(46, 204, 113, 0.2);
+        }
+        
+        .rate-scenario.bad .scenario-icon {
+            background: rgba(196, 30, 58, 0.2);
+        }
+        
+        .scenario-title {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .rate-scenario.good .scenario-title { color: var(--green); }
+        .rate-scenario.bad .scenario-title { color: var(--red); }
+        
+        .scenario-analogy {
+            font-size: 20px;
+            color: var(--text);
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .scenario-explain {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        
+        .scenario-result {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+            font-family: 'Source Code Pro', monospace;
+            font-size: 13px;
+        }
+        
+        .rate-scenario.good .scenario-result { color: var(--green); }
+        .rate-scenario.bad .scenario-result { color: var(--red); }
+        
+        .current-situation {
+            background: var(--bg);
+            border: 2px solid var(--gold);
+            padding: 25px 30px;
+            margin-top: 30px;
+        }
+        
+        .current-situation h4 {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 12px;
+            color: var(--gold);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        
+        .current-situation p {
+            font-size: 16px;
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        .current-situation strong {
+            color: var(--gold);
+        }
+        
+        /* Comparison Section */
+        .comparison-section {
+            background: var(--bg);
+        }
+        
+        .party-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            margin: 40px 0;
+            border: 1px solid var(--border);
+        }
+        
+        .party-column {
+            padding: 40px;
+        }
+        
+        .party-column.dem {
+            background: rgba(74, 158, 255, 0.08);
+            border-right: 1px solid var(--border);
+        }
+        
+        .party-column.rep {
+            background: rgba(196, 30, 58, 0.08);
+        }
+        
+        .party-header {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+        
+        .party-column.dem .party-header { color: var(--blue); }
+        .party-column.rep .party-header { color: var(--red); }
+        
+        .party-stat {
+            margin-bottom: 30px;
+        }
+        
+        .party-stat-value {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 36px;
+            font-weight: 700;
+        }
+        
+        .party-column.dem .party-stat-value { color: var(--blue); }
+        .party-column.rep .party-stat-value { color: var(--red); }
+        
+        .party-stat-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+        
+        .party-stat-detail {
+            font-size: 13px;
+            color: var(--text-dim);
+            margin-top: 8px;
+            font-style: italic;
+        }
+        
+        /* Jobs Section */
+        .jobs-section {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.08) 0%, rgba(46, 204, 113, 0.02) 100%);
+        }
+        
+        .jobs-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 40px 0;
+        }
+        
+        .jobs-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 35px;
+        }
+        
+        .jobs-card h3 {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        
+        .jobs-card.biden h3 { color: var(--blue); }
+        .jobs-card.trump h3 { color: var(--red); }
+        
+        .jobs-big-number {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 64px;
+            font-weight: 700;
+            line-height: 1;
+        }
+        
+        .jobs-card.biden .jobs-big-number { color: var(--blue); }
+        .jobs-card.trump .jobs-big-number { color: var(--red); }
+        
+        .jobs-unit {
+            font-size: 24px;
+            font-weight: 400;
+            opacity: 0.7;
+        }
+        
+        .jobs-context {
+            margin-top: 20px;
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        
+        .jobs-context strong {
+            color: var(--text);
+        }
+        
+        .inheritance-callout {
+            background: var(--bg);
+            border: 1px solid var(--gold);
+            border-left: 4px solid var(--gold);
+            padding: 25px;
+            margin-top: 30px;
+        }
+        
+        .inheritance-callout h4 {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px;
+            color: var(--gold);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        
+        .inheritance-callout p {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        
+        /* Soft Landing Section */
+        .landing-section {
+            background: linear-gradient(135deg, rgba(74, 158, 255, 0.1) 0%, var(--bg) 100%);
+        }
+        
+        .landing-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .landing-stat {
+            text-align: center;
+            padding: 30px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+        }
+        
+        .landing-before-after {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .landing-value {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 32px;
+            font-weight: 700;
+        }
+        
+        .landing-value.before {
+            color: var(--red);
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        
+        .landing-value.after {
+            color: var(--green);
+        }
+        
+        .landing-arrow {
+            font-size: 24px;
+            color: var(--text-dim);
+        }
+        
+        .landing-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .expert-quote {
+            background: var(--bg);
+            border-left: 4px solid var(--blue);
+            padding: 25px 30px;
+            margin: 30px 0;
+        }
+        
+        .expert-quote blockquote {
+            font-size: 20px;
+            font-style: italic;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+        
+        .expert-quote cite {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        /* Business Record Section */
+        .business-section {
+            background: rgba(196, 30, 58, 0.05);
+        }
+        
+        .business-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        .business-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 25px;
+        }
+        
+        .business-card h4 {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px;
+            color: var(--red);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        
+        .business-card .number {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--red);
+            margin-bottom: 10px;
+        }
+        
+        .business-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        
+        .index-fund-callout {
+            background: var(--bg);
+            border: 2px solid var(--gold);
+            padding: 30px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .index-fund-callout h4 {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 12px;
+            color: var(--gold);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+        
+        .index-fund-callout p {
+            font-size: 18px;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .index-fund-callout strong {
+            color: var(--gold);
+        }
+        
+        /* Data Transparency Section */
+        .transparency-section {
+            background: var(--bg);
+        }
+        
+        .transparency-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .transparency-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+        }
+        
+        .transparency-icon {
+            font-size: 24px;
+            color: var(--red);
+        }
+        
+        .transparency-text h4 {
+            font-size: 16px;
+            color: var(--text);
+            margin-bottom: 5px;
+        }
+        
+        .transparency-text p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        
+        /* Key Takeaways */
+        .takeaways-section {
+            background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg) 100%);
+            padding: 60px 40px;
+        }
+        
+        .takeaways-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .takeaway {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-top: 3px solid var(--blue);
+            padding: 25px;
+        }
+        
+        .takeaway-number {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px;
+            color: var(--blue);
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+        
+        .takeaway h4 {
+            font-size: 18px;
+            color: var(--text);
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .takeaway p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 40px;
+            border-top: 1px solid var(--border);
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px;
+            color: var(--text-dim);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-date {
+            letter-spacing: 2px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 900px) {
+            h1 { font-size: 36px; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .party-comparison { grid-template-columns: 1fr; }
+            .jobs-comparison { grid-template-columns: 1fr; }
+            .rates-explainer { grid-template-columns: 1fr; }
+            .landing-stats { grid-template-columns: 1fr; }
+            .takeaways-grid { grid-template-columns: 1fr; }
+            .business-grid { grid-template-columns: 1fr; }
+            .tariff-cost { grid-template-columns: 1fr; }
+            .reality-check { grid-template-columns: 1fr; gap: 10px; }
+            .vs-divider { padding: 10px 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="noise-overlay"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="date-stamp">DECEMBER 2025 • DATA-DRIVEN ANALYSIS</div>
+            <div class="label">Economic Reality Check</div>
+            <h1>The Money in <span class="highlight">Your Pocket</span>: What the Numbers Actually Show</h1>
+            <p class="subtitle">
+                Presidents get credit and blame for the economy—but do the facts match the narratives? 
+                A look at what's actually happening versus what we're told is happening.
+            </p>
+        </header>
+        
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-number">$6.6T</div>
+                <div class="stat-label">Lost in 2 Days (April 2025)</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">27%</div>
+                <div class="stat-label">Peak Tariff Rate (Highest Since 1930s)</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number blue">16.6M</div>
+                <div class="stat-label">Jobs Created Under Biden</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number green">9.1% → 2.9%</div>
+                <div class="stat-label">Inflation Reduction (No Recession)</div>
+            </div>
+        </div>
+        
+        <!-- Tariffs Section -->
+        <section class="tariff-section">
+            <div class="label">Reality Check #1</div>
+            <h2>Tariffs Are a Tax—And You're Paying It</h2>
+            
+            <div class="reality-check">
+                <div class="myth-side">
+                    <h3>❌ The Claim</h3>
+                    <p class="quote">"China pays the tariffs"</p>
+                    <p>Foreign countries are punished while American consumers benefit.</p>
+                </div>
+                <div class="vs-divider">VS</div>
+                <div class="reality-side">
+                    <h3>✓ The Reality</h3>
+                    <p class="quote">American importers pay 100% of tariff costs</p>
+                    <p>Federal Reserve and Peterson Institute research confirms: tariffs are paid directly to U.S. Customs by American businesses, then passed to consumers.</p>
+                </div>
+            </div>
+            
+            <div class="tariff-cost">
+                <div class="cost-card">
+                    <div class="cost-number">$1,100–$4,000</div>
+                    <div class="cost-label">Additional cost per household annually from 2025 tariffs</div>
+                </div>
+                <div class="cost-card">
+                    <div class="cost-number">1.17M</div>
+                    <div class="cost-label">Layoffs announced in 2025 (highest since COVID)</div>
+                </div>
+                <div class="cost-card">
+                    <div class="cost-number">97%</div>
+                    <div class="cost-label">Of importing companies are small businesses with slim margins</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Interest Rates Section -->
+        <section class="rates-section">
+            <div class="label blue">Reality Check #2</div>
+            <h2>Rate Cuts Aren't Always Good News</h2>
+            <p style="font-size: 17px; color: var(--text-muted); max-width: 800px; margin-bottom: 20px;">
+                When the Fed cuts rates, it sounds positive. But <em>why</em> they're cutting matters enormously. 
+                Think of it like a doctor visit:
+            </p>
+            
+            <div class="rates-explainer">
+                <div class="rate-scenario good">
+                    <div class="scenario-header">
+                        <div class="scenario-icon">💪</div>
+                        <div class="scenario-title">Preventive Medicine</div>
+                    </div>
+                    <p class="scenario-analogy">"You're healthy. Here's a vitamin to stay that way."</p>
+                    <p class="scenario-explain">
+                        When the economy is strong and the Fed cuts rates as "insurance"—like in 1995 or 2019—it's a 
+                        precautionary measure during expansion. The patient is healthy.
+                    </p>
+                    <div class="scenario-result">
+                        Historical market return: +17.9% annually
+                    </div>
+                </div>
+                
+                <div class="rate-scenario bad">
+                    <div class="scenario-header">
+                        <div class="scenario-icon">🏥</div>
+                        <div class="scenario-title">Emergency Treatment</div>
+                    </div>
+                    <p class="scenario-analogy">"You're sick. Here's medicine to prevent worse."</p>
+                    <p class="scenario-explain">
+                        When the economy is struggling and the Fed cuts rates to prevent recession—like in 2007-2008—it's 
+                        emergency intervention. The patient is already sick.
+                    </p>
+                    <div class="scenario-result">
+                        Historical market return: -2.9% annually
+                    </div>
+                </div>
+            </div>
+            
+            <div class="current-situation">
+                <h4>📍 Where We Are Now (Late 2025)</h4>
+                <p>
+                    The Fed is cutting rates while warning about <strong>"stagflation risks"</strong>—rising inflation 
+                    AND slowing growth. Fed Chair Powell explicitly stated tariffs are <strong>"highly likely to generate 
+                    at least a temporary rise in inflation."</strong> Treasury Secretary Bessent warned a broader 
+                    recession is possible without more cuts. This isn't preventive medicine. The Fed raised its 2025 
+                    inflation forecast specifically because of tariff effects.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Jobs Section -->
+        <section class="jobs-section">
+            <div class="label green">Reality Check #3</div>
+            <h2>Job Creation: The Numbers Don't Lie</h2>
+            
+            <div class="jobs-comparison">
+                <div class="jobs-card biden">
+                    <h3>Biden Administration</h3>
+                    <div class="jobs-big-number">16.6<span class="jobs-unit">M</span></div>
+                    <p class="jobs-context">
+                        <strong>Jobs created over 4 years.</strong> The only administration to add jobs every single 
+                        month of the term. Unemployment fell from 6.4% to 4.1%.
+                    </p>
+                </div>
+                
+                <div class="jobs-card trump">
+                    <h3>Trump Term 1 (Pre-COVID)</h3>
+                    <div class="jobs-big-number">6.7<span class="jobs-unit">M</span></div>
+                    <p class="jobs-context">
+                        <strong>Jobs created through Feb 2020.</strong> Inherited 75 consecutive months of job growth 
+                        from Obama. Left office with unemployment at 6.7%—higher than when he started.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="inheritance-callout">
+                <h4>🔄 The Inheritance Effect</h4>
+                <p>
+                    Economic policies take 6-18 months to show effects. This is why first-year performance often reflects the 
+                    prior administration. Academic research (Blinder & Watson, Princeton) found that in <em>every</em> post-WWII 
+                    transition, growth slowed when a Republican replaced a Democrat and sped up when a Democrat replaced a Republican.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Party Comparison Section -->
+        <section class="comparison-section">
+            <div class="label">Reality Check #4</div>
+            <h2>The "Fiscal Conservative" Myth</h2>
+            <p style="font-size: 17px; color: var(--text-muted); max-width: 800px; margin-bottom: 10px;">
+                Since 1945, the data consistently contradicts the narrative that Republicans are better for the economy.
+            </p>
+            
+            <div class="party-comparison">
+                <div class="party-column dem">
+                    <div class="party-header">Democratic Presidents</div>
+                    
+                    <div class="party-stat">
+                        <div class="party-stat-value">83M</div>
+                        <div class="party-stat-label">Jobs created since 1945</div>
+                        <div class="party-stat-detail">72% of all job growth</div>
+                    </div>
+                    
+                    <div class="party-stat">
+                        <div class="party-stat-value">8.35%</div>
+                        <div class="party-stat-label">Average annual S&P 500 return</div>
+                        <div class="party-stat-detail">More than 3x Republican average</div>
+                    </div>
+                    
+                    <div class="party-stat">
+                        <div class="party-stat-value">↓ Deficits</div>
+                        <div class="party-stat-label">Deficit trajectory</div>
+                        <div class="party-stat-detail">Clinton: first surplus since 1969. Obama: reduced deficit 53%. Biden: reduced deficit 50% in year one.</div>
+                    </div>
+                </div>
+                
+                <div class="party-column rep">
+                    <div class="party-header">Republican Presidents</div>
+                    
+                    <div class="party-stat">
+                        <div class="party-stat-value">32M</div>
+                        <div class="party-stat-label">Jobs created since 1945</div>
+                        <div class="party-stat-detail">28% of all job growth</div>
+                    </div>
+                    
+                    <div class="party-stat">
+                        <div class="party-stat-value">2.70%</div>
+                        <div class="party-stat-label">Average annual S&P 500 return</div>
+                        <div class="party-stat-detail">Less than 1/3 of Democratic average</div>
+                    </div>
+                    
+                    <div class="party-stat">
+                        <div class="party-stat-value">↑ Deficits</div>
+                        <div class="party-stat-label">Deficit trajectory</div>
+                        <div class="party-stat-detail">Reagan: +94%. Bush 43: +1,204%. Trump: +317%. Every Republican president since Reagan increased deficits.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="expert-quote">
+                <blockquote>
+                    "It just seems that the economy does better under the Democrats than the Republicans."
+                </blockquote>
+                <cite>— Donald Trump, 2004 (CNN Interview)</cite>
+            </div>
+        </section>
+        
+        <!-- Soft Landing Section -->
+        <section class="landing-section">
+            <div class="label blue">Reality Check #5</div>
+            <h2>The "Impossible" Soft Landing Biden Achieved</h2>
+            <p style="font-size: 17px; color: var(--text-muted); max-width: 800px; margin-bottom: 10px;">
+                In 2022, economists said reducing inflation without causing a recession was virtually impossible. 
+                Bloomberg assigned 100% probability to a recession within 12 months. It didn't happen.
+            </p>
+            
+            <div class="landing-stats">
+                <div class="landing-stat">
+                    <div class="landing-before-after">
+                        <span class="landing-value before">9.1%</span>
+                        <span class="landing-arrow">→</span>
+                        <span class="landing-value after">2.9%</span>
+                    </div>
+                    <div class="landing-label">Inflation (June 2022 → Dec 2024)</div>
+                </div>
+                
+                <div class="landing-stat">
+                    <div class="landing-before-after">
+                        <span class="landing-value after">25</span>
+                    </div>
+                    <div class="landing-label">Consecutive months under 4% unemployment (longest streak in 50+ years)</div>
+                </div>
+                
+                <div class="landing-stat">
+                    <div class="landing-before-after">
+                        <span class="landing-value after">57.8%</span>
+                    </div>
+                    <div class="landing-label">S&P 500 return over Biden's term</div>
+                </div>
+            </div>
+            
+            <div class="expert-quote">
+                <blockquote>
+                    "Biden inherited an economy that was flat on its back because of the pandemic, and he's 
+                    bequeathing an economy that's flying high."
+                </blockquote>
+                <cite>— Mark Zandi, Moody's Analytics Chief Economist</cite>
+            </div>
+        </section>
+        
+        <!-- Business Record Section -->
+        <section class="business-section">
+            <div class="label">Reality Check #6</div>
+            <h2>The "Genius Businessman" Record</h2>
+            
+            <div class="business-grid">
+                <div class="business-card">
+                    <h4>Corporate Bankruptcies</h4>
+                    <div class="number">6</div>
+                    <p>Chapter 11 filings between 1991-2009, primarily Atlantic City casinos</p>
+                </div>
+                
+                <div class="business-card">
+                    <h4>Trump University Settlement</h4>
+                    <div class="number">$25M</div>
+                    <p>Paid to approximately 6,000 students who alleged fraud</p>
+                </div>
+                
+                <div class="business-card">
+                    <h4>Trump Foundation</h4>
+                    <div class="number">Dissolved</div>
+                    <p>Shut down by court order for "shocking pattern of illegality." $2M fine paid.</p>
+                </div>
+                
+                <div class="business-card">
+                    <h4>NY Fraud Case</h4>
+                    <div class="number">Liable</div>
+                    <p>All 5 appellate judges upheld fraud finding for inflating financial statements</p>
+                </div>
+            </div>
+            
+            <div class="index-fund-callout">
+                <h4>The Index Fund Test</h4>
+                <p>
+                    Trump received at least <strong>$413 million</strong> from his father's real estate empire. 
+                    If he had simply put that money in an S&P 500 index fund, financial analysts calculate he would 
+                    likely be <strong>wealthier today than he actually is</strong>.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Data Transparency Section -->
+        <section class="transparency-section">
+            <div class="label">Reality Check #7</div>
+            <h2>When You Can't See the Numbers</h2>
+            <p style="font-size: 17px; color: var(--text-muted); max-width: 800px; margin-bottom: 20px;">
+                The 43-day government shutdown in fall 2025 created unprecedented gaps in economic data—making it 
+                harder to evaluate actual performance.
+            </p>
+            
+            <div class="transparency-list">
+                <div class="transparency-item">
+                    <div class="transparency-icon">📊</div>
+                    <div class="transparency-text">
+                        <h4>October Jobs Report</h4>
+                        <p>Likely will never be released</p>
+                    </div>
+                </div>
+                
+                <div class="transparency-item">
+                    <div class="transparency-icon">📈</div>
+                    <div class="transparency-text">
+                        <h4>October CPI (Inflation)</h4>
+                        <p>May be permanently lost</p>
+                    </div>
+                </div>
+                
+                <div class="transparency-item">
+                    <div class="transparency-icon">💵</div>
+                    <div class="transparency-text">
+                        <h4>Q3 2025 GDP Estimate</h4>
+                        <p>Canceled entirely—first time ever</p>
+                    </div>
+                </div>
+                
+                <div class="transparency-item">
+                    <div class="transparency-icon">⚠️</div>
+                    <div class="transparency-text">
+                        <h4>U.S. Credit Rating</h4>
+                        <p>Downgraded by Moody's—now below top rating at all 3 agencies for first time since 1917</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Key Takeaways -->
+        <section class="takeaways-section">
+            <div class="label blue">The Bottom Line</div>
+            <h2>What the Data Actually Shows</h2>
+            
+            <div class="takeaways-grid">
+                <div class="takeaway">
+                    <div class="takeaway-number">01</div>
+                    <h4>Tariffs are taxes on Americans</h4>
+                    <p>100% of tariff costs are paid by U.S. importers and passed to consumers. This is not disputed by any serious economist.</p>
+                </div>
+                
+                <div class="takeaway">
+                    <div class="takeaway-number">02</div>
+                    <h4>Rate cuts can signal trouble</h4>
+                    <p>The Fed is cutting rates while warning about stagflation and tariff-driven inflation. This is emergency medicine, not preventive care.</p>
+                </div>
+                
+                <div class="takeaway">
+                    <div class="takeaway-number">03</div>
+                    <h4>Democrats outperform on every metric</h4>
+                    <p>Jobs, stock returns, deficit reduction—the data consistently favors Democratic administrations over 80 years.</p>
+                </div>
+                
+                <div class="takeaway">
+                    <div class="takeaway-number">04</div>
+                    <h4>Biden achieved the "impossible"</h4>
+                    <p>The soft landing—reducing inflation without recession—was the best U.S. post-pandemic recovery of any G7 nation.</p>
+                </div>
+                
+                <div class="takeaway">
+                    <div class="takeaway-number">05</div>
+                    <h4>Business success ≠ economic stewardship</h4>
+                    <p>A track record of bankruptcies, fraud settlements, and underperforming an index fund is not evidence of economic genius.</p>
+                </div>
+                
+                <div class="takeaway">
+                    <div class="takeaway-number">06</div>
+                    <h4>Measure what actually happened</h4>
+                    <p>Policy effects lag 6-18 months. First-year performance often reflects the prior administration. Look at full terms, not headlines.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer>
+            <div>
+                Sources: Federal Reserve, Bureau of Labor Statistics, Tax Foundation, Peterson Institute, 
+                Princeton (Blinder-Watson), Treasury Department, Moody's Analytics, FactCheck.org
+            </div>
+            <div class="footer-date">DATA CURRENT AS OF DECEMBER 2025</div>
+        </footer>
+    </div>
+</body>
+</html>

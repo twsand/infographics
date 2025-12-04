@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Can You Trust Fox News? | A Data-Driven Analysis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+Pro:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Source Sans Pro', sans-serif;
+      background: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+      color: #e2e8f0;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 32px;
+      position: relative;
+    }
+
+    /* Texture overlay */
+    .container::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+
+    h1 span {
+      color: #ef4444;
+    }
+
+    .tagline {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: #94a3b8;
+      font-style: italic;
+    }
+
+    section {
+      margin-bottom: 40px;
+      border-radius: 16px;
+      padding: 32px;
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      font-weight: 400;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 400;
+      margin-bottom: 28px;
+    }
+
+    /* Credibility Section */
+    .credibility-section {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .credibility-section .section-label {
+      color: #f59e0b;
+    }
+
+    .bar-chart {
+      margin-bottom: 24px;
+    }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .bar-label {
+      width: 150px;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+
+    .bar-label.highlight {
+      font-weight: 700;
+      color: #ef4444;
+    }
+
+    .bar-label.dim {
+      color: #991b1b;
+    }
+
+    .bar-container {
+      flex: 1;
+      height: 32px;
+      position: relative;
+      background: rgba(0,0,0,0.2);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .bar {
+      height: 100%;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 12px;
+      transition: width 0.8s ease-out;
+    }
+
+    .bar-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+      text-shadow: 0 0 8px rgba(255,255,255,0.4);
+    }
+
+    .bar.excellent { background: linear-gradient(90deg, #22c55ecc, #22c55e99); }
+    .bar.good { background: linear-gradient(90deg, #84cc16cc, #84cc1699); }
+    .bar.fair { background: linear-gradient(90deg, #eab308cc, #eab30899); }
+    .bar.warning { background: linear-gradient(90deg, #f97316cc, #f9731699); }
+    .bar.poor { background: linear-gradient(90deg, #ef4444cc, #ef444499); box-shadow: 0 0 24px rgba(239,68,68,0.4); }
+    .bar.terrible { background: linear-gradient(90deg, #7f1d1dcc, #7f1d1d99); }
+
+    .chart-footer {
+      display: flex;
+      gap: 24px;
+      font-size: 13px;
+      color: #94a3b8;
+      border-top: 1px solid rgba(148, 163, 184, 0.2);
+      padding-top: 16px;
+    }
+
+    /* Legal Section */
+    .legal-section {
+      background: rgba(127, 29, 29, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+    }
+
+    .legal-section .section-label {
+      color: #ef4444;
+    }
+
+    .legal-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .legal-row {
+      display: grid;
+      grid-template-columns: 1fr 110px 90px 1.2fr;
+      gap: 16px;
+      align-items: center;
+      padding: 18px 20px;
+      background: rgba(0,0,0,0.35);
+      border-radius: 10px;
+      border-left: 4px solid #94a3b8;
+    }
+
+    .legal-row.primary {
+      border-left-color: #ef4444;
+    }
+
+    .legal-case {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .legal-amount {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      font-weight: 700;
+      color: #f59e0b;
+    }
+
+    .legal-status {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .legal-status.settled { color: #22c55e; }
+    .legal-status.ongoing { color: #f59e0b; }
+
+    .legal-finding {
+      font-size: 14px;
+      font-style: italic;
+      color: #94a3b8;
+    }
+
+    .quote-box {
+      padding: 24px;
+      background: rgba(239, 68, 68, 0.08);
+      border-radius: 10px;
+      border-left: 4px solid #ef4444;
+    }
+
+    .quote-box p {
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .quote-box strong {
+      color: #ef4444;
+    }
+
+    /* Internal Communications */
+    .internal-section {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .internal-section .section-label {
+      color: #f59e0b;
+    }
+
+    .internal-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .internal-row {
+      display: grid;
+      grid-template-columns: 130px 1fr 1fr;
+      gap: 24px;
+      padding: 20px;
+      background: rgba(0,0,0,0.35);
+      border-radius: 10px;
+    }
+
+    .internal-person {
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .internal-col-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #94a3b8;
+      margin-bottom: 6px;
+    }
+
+    .internal-private {
+      font-style: italic;
+      font-size: 15px;
+    }
+
+    .internal-public {
+      font-size: 15px;
+    }
+
+    /* Newsmax Callout */
+    .newsmax-section {
+      background: rgba(127, 29, 29, 0.18);
+      border: 1px solid rgba(127, 29, 29, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .newsmax-score {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 56px;
+      font-weight: 700;
+      color: #7f1d1d;
+      flex-shrink: 0;
+    }
+
+    .newsmax-score span {
+      font-size: 28px;
+    }
+
+    .newsmax-content h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: #fca5a5;
+      margin-bottom: 10px;
+    }
+
+    .newsmax-content p {
+      font-size: 15px;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+
+    /* Money Section */
+    .money-section {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(217, 119, 6, 0.08) 100%);
+      border: 2px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .money-header {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 400;
+      color: #fbbf24;
+      margin-bottom: 8px;
+    }
+
+    .money-answer {
+      font-family: 'Playfair Display', serif;
+      font-size: 72px;
+      font-weight: 700;
+      color: #f59e0b;
+      letter-spacing: -3px;
+      margin-bottom: 28px;
+    }
+
+    .cost-of-business {
+      background: rgba(0,0,0,0.5);
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 28px;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .cost-header {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: #ef4444;
+      margin-bottom: 20px;
+    }
+
+    .cost-math {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .cost-box {
+      text-align: center;
+      padding: 20px;
+      background: rgba(0,0,0,0.4);
+      border-radius: 8px;
+    }
+
+    .cost-box-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #94a3b8;
+      margin-bottom: 8px;
+    }
+
+    .cost-box-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .cost-box-value.profit { color: #22c55e; }
+    .cost-box-value.settlement { color: #ef4444; }
+    .cost-box-value.net { color: #fbbf24; }
+
+    .cost-box-note {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 6px;
+    }
+
+    .cost-operator {
+      font-size: 36px;
+      color: #64748b;
+      font-weight: 300;
+    }
+
+    .cost-conclusion {
+      text-align: center;
+      padding: 20px;
+      background: rgba(239, 68, 68, 0.1);
+      border-radius: 8px;
+      border-left: 4px solid #ef4444;
+    }
+
+    .cost-conclusion p {
+      font-size: 18px;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .lies-paid {
+      background: rgba(0,0,0,0.4);
+      border-radius: 10px;
+      padding: 24px;
+      margin-bottom: 28px;
+    }
+
+    .lies-paid-header {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: #fbbf24;
+      margin-bottom: 16px;
+    }
+
+    .lies-comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+
+    .lies-stat {
+      text-align: center;
+      padding: 16px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 8px;
+    }
+
+    .lies-stat-network {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .lies-stat-network.fox { color: #ef4444; }
+    .lies-stat-network.cnn { color: #94a3b8; }
+    .lies-stat-network.msnbc { color: #94a3b8; }
+
+    .lies-stat-change {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .lies-stat-change.up { color: #22c55e; }
+    .lies-stat-change.down { color: #ef4444; }
+
+    .lies-stat-label {
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+
+    .money-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    .money-stat {
+      padding: 24px;
+      background: rgba(0,0,0,0.35);
+      border-radius: 10px;
+    }
+
+    .money-stat-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #94a3b8;
+      margin-bottom: 10px;
+    }
+
+    .money-stat-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 44px;
+      font-weight: 700;
+      color: #fbbf24;
+    }
+
+    .money-stat-note {
+      font-size: 14px;
+      color: #94a3b8;
+      margin-top: 10px;
+    }
+
+    .money-explanation {
+      padding: 28px;
+      background: rgba(0,0,0,0.4);
+      border-radius: 10px;
+      border-left: 4px solid #f59e0b;
+    }
+
+    .money-explanation h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 400;
+      color: #fbbf24;
+      margin-bottom: 14px;
+    }
+
+    .money-explanation p {
+      font-size: 16px;
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .money-explanation p:last-child {
+      margin-bottom: 0;
+      color: #94a3b8;
+    }
+
+    /* Defense Quote */
+    .defense-section {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      text-align: center;
+    }
+
+    .defense-section .section-label {
+      color: #94a3b8;
+    }
+
+    .defense-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-style: italic;
+      line-height: 1.5;
+      max-width: 720px;
+      margin: 0 auto 20px;
+    }
+
+    .defense-attribution {
+      font-size: 15px;
+      color: #94a3b8;
+    }
+
+    .defense-attribution span {
+      font-size: 13px;
+      display: block;
+      margin-top: 4px;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 40px 32px;
+      background: rgba(0,0,0,0.35);
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.1);
+    }
+
+    footer h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+
+    footer .summary {
+      font-size: 18px;
+      line-height: 1.8;
+      max-width: 680px;
+      margin: 0 auto 28px;
+      color: #cbd5e1;
+    }
+
+    footer .recommendation {
+      font-size: 16px;
+      color: #94a3b8;
+      margin-bottom: 28px;
+    }
+
+    footer .recommendation strong {
+      color: #22c55e;
+      font-weight: 600;
+    }
+
+    footer .sources {
+      font-size: 12px;
+      color: #64748b;
+      border-top: 1px solid rgba(148, 163, 184, 0.2);
+      padding-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 32px 20px;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+
+      .legal-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .internal-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .money-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .newsmax-section {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .bar-label {
+        width: 100px;
+        font-size: 13px;
+      }
+
+      .cost-math {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .cost-operator {
+        font-size: 24px;
+        text-align: center;
+      }
+
+      .cost-box-value {
+        font-size: 24px;
+      }
+
+      .lies-comparison {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .money-answer {
+        font-size: 48px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <p class="subtitle">A Data-Driven Analysis</p>
+      <h1>Can You Trust <span>Fox News</span>?</h1>
+      <p class="tagline">What courts, independent ratings, and their own words reveal</p>
+    </header>
+
+    <!-- Credibility Comparison -->
+    <section class="credibility-section">
+      <p class="section-label">Independent Credibility Ratings</p>
+      <h2 class="section-title">How does Fox News compare to outlets you trust?</h2>
+      
+      <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label">Reuters</div>
+          <div class="bar-container">
+            <div class="bar excellent" style="width: 100%">
+              <span class="bar-value">100/100</span>
+            </div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Associated Press</div>
+          <div class="bar-container">
+            <div class="bar excellent" style="width: 100%">
+              <span class="bar-value">100/100</span>
+            </div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Wall Street Journal</div>
+          <div class="bar-container">
+            <div class="bar excellent" style="width: 100%">
+              <span class="bar-value">100/100</span>
+            </div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">BBC</div>
+          <div class="bar-container">
+            <div class="bar good" style="width: 95%">
+              <span class="bar-value">95/100</span>
+            </div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">ABC News</div>
+          <div class="bar-container">
+            <div class="bar fair" style="width: 85%">
+              <span class="bar-value">85/100</span>
+            </div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">CNN</div>
+          <div class="bar-container">
+            <div class="bar warning" style="width: 80%">
+              <span class="bar-value">80/100</span>
+            </div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label highlight">Fox News</div>
+          <div class="bar-container">
+            <div class="bar poor" style="width: 63%">
+              <span class="bar-value">63/100</span>
+            </div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label dim">Newsmax</div>
+          <div class="bar-container">
+            <div class="bar terrible" style="width: 20%">
+              <span class="bar-value">20/100</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-footer">
+        <span><strong>Source:</strong> NewsGuard credibility scores</span>
+        <span>•</span>
+        <span>Note: Wall Street Journal is also Murdoch-owned—same owner, different standards</span>
+      </div>
+    </section>
+
+    <!-- Legal Consequences -->
+    <section class="legal-section">
+      <p class="section-label">Legal Consequences</p>
+      <h2 class="section-title">Over $800 million paid. $2.7 billion still pending.</h2>
+
+      <div class="legal-grid">
+        <div class="legal-row primary">
+          <div class="legal-case">Dominion v. Fox News</div>
+          <div class="legal-amount">$787.5M</div>
+          <div class="legal-status settled">Settled</div>
+          <div class="legal-finding">"CRYSTAL clear" claims were false</div>
+        </div>
+        <div class="legal-row">
+          <div class="legal-case">Smartmatic v. Fox News</div>
+          <div class="legal-amount">$2.7B</div>
+          <div class="legal-status ongoing">Ongoing</div>
+          <div class="legal-finding">Appellate court: proceeds to trial</div>
+        </div>
+        <div class="legal-row">
+          <div class="legal-case">Seth Rich Family v. Fox</div>
+          <div class="legal-amount">7 figures</div>
+          <div class="legal-status settled">Settled</div>
+          <div class="legal-finding">Settled before depositions</div>
+        </div>
+      </div>
+
+      <div class="quote-box">
+        <p>
+          <strong>Judge Eric Davis (Dominion case):</strong><br>
+          "It is CRYSTAL clear that none of the Statements relating to Dominion about the 2020 election are true."
+        </p>
+      </div>
+    </section>
+
+    <!-- Internal Communications -->
+    <section class="internal-section">
+      <p class="section-label">Internal Communications</p>
+      <h2 class="section-title">What they said privately vs. what they aired</h2>
+
+      <div class="internal-grid">
+        <div class="internal-row">
+          <div class="internal-person">Tucker Carlson</div>
+          <div>
+            <div class="internal-col-label">Said Privately</div>
+            <div class="internal-private">"Sidney Powell is lying."</div>
+          </div>
+          <div>
+            <div class="internal-col-label">On Air</div>
+            <div class="internal-public">Continued hosting Powell allies</div>
+          </div>
+        </div>
+        <div class="internal-row">
+          <div class="internal-person">Laura Ingraham</div>
+          <div>
+            <div class="internal-col-label">Said Privately</div>
+            <div class="internal-private">"Sidney is a complete nut."</div>
+          </div>
+          <div>
+            <div class="internal-col-label">On Air</div>
+            <div class="internal-public">Same night praised fraud claims</div>
+          </div>
+        </div>
+        <div class="internal-row">
+          <div class="internal-person">Rupert Murdoch</div>
+          <div>
+            <div class="internal-col-label">Under Oath</div>
+            <div class="internal-private">"Could have stopped lies. Didn't."</div>
+          </div>
+          <div>
+            <div class="internal-col-label">On Air</div>
+            <div class="internal-public">Let claims continue for months</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsmax Callout -->
+    <section class="newsmax-section">
+      <div class="newsmax-score">20<span>/100</span></div>
+      <div class="newsmax-content">
+        <h3>Newsmax is no better</h3>
+        <p>Newsmax scores even lower (20/100 on NewsGuard) and settled for $40M with Smartmatic and $67M with Dominion—publicly acknowledging their election claims were "factually false."</p>
+      </div>
+    </section>
+
+    <!-- Money Section -->
+    <section class="money-section">
+      <h2 class="money-header">Why does this happen?</h2>
+      <p class="money-answer">Money.</p>
+
+      <!-- Cost of Doing Business Calculation -->
+      <div class="cost-of-business">
+        <h3 class="cost-header">The Settlement Was a Cost of Doing Business</h3>
+        
+        <div class="cost-math">
+          <div class="cost-box">
+            <div class="cost-box-label">Fox News Profit (FY2022)</div>
+            <div class="cost-box-value profit">$2.8B</div>
+            <div class="cost-box-note">Cable division alone</div>
+          </div>
+          <div class="cost-operator">−</div>
+          <div class="cost-box">
+            <div class="cost-box-label">Dominion Settlement</div>
+            <div class="cost-box-value settlement">$787M</div>
+            <div class="cost-box-note">Largest in media history</div>
+          </div>
+          <div class="cost-operator">=</div>
+          <div class="cost-box">
+            <div class="cost-box-label">Still Profitable</div>
+            <div class="cost-box-value net">$2B+</div>
+            <div class="cost-box-note">In that year alone</div>
+          </div>
+        </div>
+
+        <div class="cost-conclusion">
+          <p>The "historic" settlement was <strong>28% of one year's profits</strong>—recovered in about 3-4 months of normal operations. Meanwhile, the lies they told generated years of increased viewership and revenue.</p>
+        </div>
+      </div>
+
+      <!-- The Lies Paid Off -->
+      <div class="lies-paid">
+        <h3 class="lies-paid-header">During 2020-2022 (when election lies were broadcast):</h3>
+        <div class="lies-comparison">
+          <div class="lies-stat">
+            <div class="lies-stat-network fox">Fox News</div>
+            <div class="lies-stat-change up">+5%</div>
+            <div class="lies-stat-label">Revenue Growth</div>
+          </div>
+          <div class="lies-stat">
+            <div class="lies-stat-network cnn">CNN</div>
+            <div class="lies-stat-change down">−5%</div>
+            <div class="lies-stat-label">Revenue Growth</div>
+          </div>
+          <div class="lies-stat">
+            <div class="lies-stat-network msnbc">MSNBC</div>
+            <div class="lies-stat-change down">−8%</div>
+            <div class="lies-stat-label">Revenue Growth</div>
+          </div>
+        </div>
+        <p style="text-align: center; font-size: 14px; color: #94a3b8; margin-top: 16px;">
+          Fox News ad revenue grew <strong style="color: #22c55e;">+11%</strong> while CNN's dropped 13% and MSNBC's dropped 11%.
+          <br>Fox primetime viewership grew <strong style="color: #22c55e;">+10%</strong> while CNN dropped 25%.
+        </p>
+      </div>
+
+      <div class="money-stats">
+        <div class="money-stat">
+          <div class="money-stat-label">Annual Revenue</div>
+          <div class="money-stat-value">$3.3B</div>
+          <div class="money-stat-note">Fox News cable network (2022)</div>
+        </div>
+        <div class="money-stat">
+          <div class="money-stat-label">Carriage Fee Revenue</div>
+          <div class="money-stat-value">$1.8B</div>
+          <div class="money-stat-note">Collected whether you watch or not</div>
+        </div>
+      </div>
+
+      <div class="money-explanation">
+        <h3>Why Accuracy Doesn't Matter to Fox's Bottom Line</h3>
+        <p>Fox News could have <strong>zero advertising revenue</strong> and still maintain a <strong>35% profit margin</strong> from carriage fees alone. Every cable subscriber pays ~$2.18/month to Fox News whether they watch or not.</p>
+        <p>Carriage fees are negotiated based on <em>ratings and audience loyalty</em>—not accuracy. The internal documents from the Dominion case revealed executives feared "viewers would be alienated and switch to rival conservative networks" if they reported the truth.</p>
+        <p><strong>The incentive is clear:</strong> Outrage drives ratings. Ratings drive carriage fees. The lies made them money. The settlement was a speeding ticket.</p>
+      </div>
+    </section>
+
+    <!-- Defense Quote -->
+    <section class="defense-section">
+      <p class="section-label">Fox News's Own Legal Defense</p>
+      <p class="defense-quote">"Any reasonable viewer arrives with an appropriate amount of skepticism about the statements [Tucker Carlson] makes."</p>
+      <p class="defense-attribution">
+        — Fox News lawyers, successfully arguing Carlson's statements shouldn't be taken as fact
+        <span>(Case dismissed on these grounds, 2020)</span>
+      </p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <h2>The Bottom Line</h2>
+      <p class="summary">Fox News isn't inherently bad for having a conservative perspective—many credible outlets do. The problem is a documented pattern of broadcasting information <em>they knew to be false</em>, paying historic settlements, and arguing in court that their hosts shouldn't be taken seriously.</p>
+      <p class="recommendation">
+        Consider getting your news from sources rated 85+ by independent organizations:<br>
+        <strong>Reuters • AP • Wall Street Journal • BBC • Ground News</strong>
+      </p>
+      <p class="sources">
+        Sources: Dominion Voting Systems v. Fox News court filings • NewsGuard • Ad Fontes Media • Media Bias/Fact Check • NPR • PBS
+      </p>
+    </footer>
+  </div>
+</body>
+</html>
