@@ -64,16 +64,56 @@
         /* Stats Banner */
         .stats-banner {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-around;
+            gap: 15px;
             background: linear-gradient(135deg, #1a1f2e 0%, #161b22 100%);
             border: 1px solid #30363d;
             border-radius: 12px;
             padding: 25px 20px;
             margin-bottom: 0.35in;
         }
-        
+
         .stat-item {
             text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .stats-banner {
+                justify-content: center;
+                padding: 20px 15px;
+            }
+            .stat-item {
+                flex: 0 0 45%;
+                margin-bottom: 8px;
+            }
+            .stat-number {
+                font-size: 32px;
+            }
+            .stat-label {
+                font-size: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-banner {
+                padding: 15px 10px;
+            }
+            .stat-item {
+                flex: 0 0 48%;
+            }
+            .stat-number {
+                font-size: 28px;
+            }
+            .stat-label {
+                font-size: 9px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .stat-item {
+                flex: 0 0 100%;
+            }
         }
         
         .stat-number {

@@ -26,7 +26,7 @@
       top: 0;
       left: 0;
       right: 0;
-      bottom: 60px;
+      bottom: 56px;
       overflow: hidden;
     }
 
@@ -37,45 +37,42 @@
       background: #111;
     }
 
+    /* Bottom navigation - always visible */
     .bottom-nav {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      height: 60px;
+      height: 56px;
       background: #0a0a0a;
+      border-top: 1px solid #222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+      z-index: 1000;
+    }
+
+    .nav-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 8px;
-      z-index: 1000;
-      transition: transform 0.3s ease, opacity 0.3s ease;
-    }
-
-    .bottom-nav.hidden {
-      transform: translateY(100%);
-      opacity: 0;
+      max-width: 500px;
+      width: 100%;
     }
 
     .nav-arrow {
-      width: 48px;
+      width: 56px;
       height: 48px;
       background: transparent;
       border: none;
       color: #e94560;
-      font-size: 32px;
-      font-weight: 300;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 8px;
-      transition: background 0.2s;
       flex-shrink: 0;
-    }
-
-    .nav-arrow:hover {
-      background: rgba(233, 69, 96, 0.1);
     }
 
     .nav-arrow:active {
@@ -87,13 +84,9 @@
       cursor: default;
     }
 
-    .nav-arrow:disabled:hover {
-      background: transparent;
-    }
-
     .nav-arrow svg {
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
       stroke: currentColor;
       stroke-width: 2.5;
       stroke-linecap: round;
@@ -101,57 +94,27 @@
       fill: none;
     }
 
-    .pagination {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
+    /* Center info */
+    .nav-info {
       flex: 1;
+      text-align: center;
       min-width: 0;
+      padding: 0 8px;
     }
 
-    .position {
+    .nav-title {
       color: #fff;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 500;
-      letter-spacing: 0.5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .dots {
-      display: flex;
-      gap: 8px;
-      flex-wrap: nowrap;
-    }
-
-    .dot {
-      width: 28px;
-      height: 28px;
-      padding: 0;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .dot svg {
-      width: 10px;
-      height: 10px;
-    }
-
-    .dot circle {
-      fill: #333;
-      transition: fill 0.2s, r 0.2s;
-    }
-
-    .dot:hover circle {
-      fill: #555;
-    }
-
-    .dot.active circle {
-      fill: #e94560;
-      r: 6;
+    .nav-count {
+      color: #888;
+      font-size: 12px;
+      margin-top: 2px;
     }
 
     /* Overview modal */
@@ -215,11 +178,10 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
       padding: 8px;
     }
 
-    .overview-item:hover {
+    .overview-item:active {
       border-color: #e94560;
       background: #222;
     }
@@ -259,12 +221,6 @@
       justify-content: center;
       gap: 5px;
       z-index: 500;
-      transition: opacity 0.3s;
-    }
-
-    .menu-btn.hidden {
-      opacity: 0;
-      pointer-events: none;
     }
 
     .menu-btn span {
@@ -275,12 +231,8 @@
     }
 
     @media (max-width: 400px) {
-      .dots {
-        gap: 6px;
-      }
-      .dot {
-        width: 8px;
-        height: 8px;
+      .nav-title {
+        font-size: 12px;
       }
     }
   </style>
@@ -297,12 +249,18 @@
   </button>
 
   <nav class="bottom-nav" id="nav">
-    <button class="nav-arrow prev" id="prevBtn" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
-    <div class="pagination">
-      <span class="position" id="position">1 of 11</span>
-      <div class="dots" id="dots"></div>
+    <div class="nav-inner">
+      <button class="nav-arrow prev" id="prevBtn" aria-label="Previous">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="nav-info" id="navInfo">
+        <div class="nav-title" id="navTitle">Breaking Precedent</div>
+        <div class="nav-count" id="navCount">1 of 11</div>
+      </div>
+      <button class="nav-arrow next" id="nextBtn" aria-label="Next">
+        <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
     </div>
-    <button class="nav-arrow next" id="nextBtn" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
   </nav>
 
   <div class="overview" id="overview">
@@ -329,30 +287,17 @@
     ];
 
     let currentIndex = 0;
-    let hideTimeout = null;
-    const HIDE_DELAY = 3000;
-    const SWIPE_THRESHOLD = 50;
 
     const frame = document.getElementById('frame');
-    const nav = document.getElementById('nav');
-    const menuBtn = document.getElementById('menuBtn');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    const position = document.getElementById('position');
-    const dotsContainer = document.getElementById('dots');
+    const navTitle = document.getElementById('navTitle');
+    const navCount = document.getElementById('navCount');
+    const navInfo = document.getElementById('navInfo');
+    const menuBtn = document.getElementById('menuBtn');
     const overview = document.getElementById('overview');
     const overviewGrid = document.getElementById('overviewGrid');
     const overviewClose = document.getElementById('overviewClose');
-
-    // Build dots
-    slides.forEach((_, i) => {
-      const dot = document.createElement('button');
-      dot.className = 'dot' + (i === 0 ? ' active' : '');
-      dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
-      dot.innerHTML = '<svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="5"/></svg>';
-      dot.addEventListener('click', () => goTo(i));
-      dotsContainer.appendChild(dot);
-    });
 
     // Build overview grid
     slides.forEach((slide, i) => {
@@ -371,12 +316,8 @@
       currentIndex = index;
 
       frame.src = slides[index].file;
-      position.textContent = `${index + 1} of ${slides.length}`;
-
-      // Update dots
-      document.querySelectorAll('.dot').forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
-      });
+      navTitle.textContent = slides[index].title;
+      navCount.textContent = `${index + 1} of ${slides.length}`;
 
       // Update overview
       document.querySelectorAll('.overview-item').forEach((item, i) => {
@@ -386,8 +327,6 @@
       // Update arrow states
       prevBtn.disabled = index === 0;
       nextBtn.disabled = index === slides.length - 1;
-
-      resetHideTimer();
     }
 
     function next() {
@@ -398,35 +337,18 @@
       if (currentIndex > 0) goTo(currentIndex - 1);
     }
 
-    function showNav() {
-      nav.classList.remove('hidden');
-      menuBtn.classList.remove('hidden');
-      resetHideTimer();
-    }
-
-    function hideNav() {
-      nav.classList.add('hidden');
-      menuBtn.classList.add('hidden');
-    }
-
-    function resetHideTimer() {
-      clearTimeout(hideTimeout);
-      hideTimeout = setTimeout(hideNav, HIDE_DELAY);
-    }
-
     function showOverview() {
       overview.classList.add('visible');
-      clearTimeout(hideTimeout);
     }
 
     function hideOverview() {
       overview.classList.remove('visible');
-      resetHideTimer();
     }
 
     // Event listeners
     prevBtn.addEventListener('click', prev);
     nextBtn.addEventListener('click', next);
+    navInfo.addEventListener('click', showOverview);
     menuBtn.addEventListener('click', showOverview);
     overviewClose.addEventListener('click', hideOverview);
 
@@ -450,59 +372,6 @@
       }
     });
 
-    // Touch/swipe handling
-    let touchStartX = 0;
-    let touchStartY = 0;
-    let isSwiping = false;
-
-    document.addEventListener('touchstart', (e) => {
-      if (overview.classList.contains('visible')) return;
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-      isSwiping = false;
-      showNav();
-    }, { passive: true });
-
-    document.addEventListener('touchmove', (e) => {
-      if (overview.classList.contains('visible')) return;
-
-      const deltaX = e.touches[0].clientX - touchStartX;
-      const deltaY = e.touches[0].clientY - touchStartY;
-
-      // If horizontal movement is greater than vertical, it's a swipe
-      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 20) {
-        isSwiping = true;
-      }
-    }, { passive: true });
-
-    document.addEventListener('touchend', (e) => {
-      if (overview.classList.contains('visible')) return;
-      if (!isSwiping) return;
-
-      const deltaX = e.changedTouches[0].clientX - touchStartX;
-
-      if (Math.abs(deltaX) > SWIPE_THRESHOLD) {
-        if (deltaX > 0) {
-          prev();
-        } else {
-          next();
-        }
-      }
-    }, { passive: true });
-
-    // Mouse/touch activity shows nav
-    document.addEventListener('click', () => {
-      showNav();
-      // Refocus body after click (iframe steals focus)
-      setTimeout(() => document.body.focus(), 0);
-    });
-    document.addEventListener('mousemove', showNav);
-
-    // Capture clicks on viewer area to refocus
-    document.querySelector('.viewer').addEventListener('click', () => {
-      document.body.focus();
-    });
-
     // Fix keyboard focus after tab switch
     document.body.setAttribute('tabindex', '-1');
 
@@ -514,6 +383,10 @@
       if (!document.hidden) {
         document.body.focus();
       }
+    });
+
+    document.addEventListener('click', () => {
+      setTimeout(() => document.body.focus(), 0);
     });
 
     // Initialize
